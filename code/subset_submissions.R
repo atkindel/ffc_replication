@@ -17,18 +17,20 @@ library(here)
 
 # Set the data directory
 data.dir <- file.path(here(), "data")
+private.data.dir <- file.path(data.dir, "private")
 
 # Set the results location
 results.dir <- file.path(here(), "results")
 
 # Load the outcomes data
-test <- read_csv(file.path(data.dir, "test.csv"))
+test <- read_csv(file.path(private.data.dir, "test.csv"))
 
 # Get the outcome variable names
 outcomes <- colnames(test)[-1]
 
 # Read the file names of the final submissions on the leaderboard
 unzip(file.path(data.dir, "leaderboard_nodupes.zip"), exdir=data.dir)
+unlink(file.path(data.dir, "__MACOSX"), recursive = T)  # Remove junk files
 leaderboard.submissions <- list.files(file.path(data.dir, "leaderboard_nodupes/"))
 
 # Remove the extra metadata files that are not submission.zip files

@@ -36,15 +36,16 @@ library(here)
 
 # Set directory information
 data.dir <- file.path(here(), "data")
+private.data.dir <- file.path(data.dir, "private")
 results.dir <- file.path(here(), "results")
 
 ###############
 ## Load data ##
 ###############
 
-background <- read.dta13(file.path(data.dir, "background.dta"), convert.factors = F)
-train <- read_csv(file.path(data.dir, "train.csv"))
-test <- read_csv(file.path(data.dir, "test.csv"))
+background <- read.dta13(file.path(private.data.dir, "background.dta"), convert.factors = F)
+train <- read_csv(file.path(private.data.dir, "train.csv"))
+test <- read_csv(file.path(private.data.dir, "test.csv"))
 outcomes <- colnames(train)[-1]
 submissions <- read_csv(file.path(data.dir, "submissions.csv"))
 
@@ -820,8 +821,8 @@ dev.off()
 # This code shows that these cases were still NA in the challenge file,
 # so the CPRC inconsistency does not affect our study.
 
-public_data <- read_dta(file.path(data.dir, "FF_Y15_pub.dta")) %>% select(idnum, cp6source)
-idLinkage <- read_csv(file.path(data.dir, "idLinkage.csv"))
+public_data <- read_dta(file.path(private.data.dir, "FF_Y15_pub.dta")) %>% select(idnum, cp6source)
+idLinkage <- read_csv(file.path(private.data.dir, "idLinkage.csv"))
 leaderboardUnfilled <- read_csv(file.path(data.dir, "leaderboardUnfilled.csv"))
 
 train %>%
