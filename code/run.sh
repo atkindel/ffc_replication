@@ -19,10 +19,10 @@ Rscript ./subset_submissions.R >> log.txt
 #  - SM figure S14 (alternative confidence intervals)
 Rscript ./science_figures.R >> log.txt
 
-# Matt: Generates SM figures S2A, S2B (missing data)
+# Matt: Generates SM figures S2a, S2b (missing data)
 Rscript ./make_missing_data_graphs.R >> log.txt
 
-# Alex: Generates SM figures S4, S5 (participant demographics)
+# Alex: Generates SM figures S4a, S4b, S5 (participant demographics)
 Rscript ./participant_analysis.R >> log.txt
 
 # Alex: Generates SM figures S17, S18, 19 (code submission analysis)

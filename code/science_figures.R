@@ -39,6 +39,9 @@ data.dir <- file.path(here(), "data")
 private.data.dir <- file.path(data.dir, "private")
 results.dir <- file.path(here(), "results")
 
+# Set ggplot2 theme
+theme_set(theme_bw())
+
 ###############
 ## Load data ##
 ###############
