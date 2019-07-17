@@ -1,0 +1,5 @@
+.DS_Store
+data/
+data/private
+results/*.pdf
+results/*.csv
