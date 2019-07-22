@@ -148,8 +148,8 @@ preparation %>%
   pipeline_scores
 
 # Plot variation in performance by absolute data preparation
-outlist = c("materialHardship" = "Material hardship", "gpa" = "GPA", "grit" = "Grit",
-            "eviction" = "Eviction", "jobTraining" = "Job training", "layoff" = "Layoff")
+outlist <- c("materialHardship" = "Material hardship", "gpa" = "GPA", "grit" = "Grit",
+             "eviction" = "Eviction", "jobTraining" = "Job training", "layoff" = "Layoff")
 pipeline_scores %>%
   rowwise() %>%
   mutate(outcome = outlist[outcome]) %>%
