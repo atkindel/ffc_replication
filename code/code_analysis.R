@@ -65,7 +65,7 @@ code %>%
 # Write symbol list to CSV (not run)
 # write_csv(symbols, file.path(data.dir, "intermediate_files", ffc_symbols_uncoded.csv"))
 
-# Load coded symbols
+# Load hand-coded symbols
 symbols <- read_csv(file.path(data.dir, "ffc_symbols_coded.csv"), col_types='ccicccc')
 
 # Unnest pipelines and merge with classification scheme

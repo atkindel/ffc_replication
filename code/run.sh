@@ -16,6 +16,11 @@ Rscript ./subset_submissions.R >> log.txt
 # Matt: Transforms Ian submission file into working data frames
 Rscript ./prep_predictions.R >> log.txt
 
+# Alex: Performs data preparation for code analysis
+# NOTE: Requires python3 and several dependencies
+bash ./prep_data.sh >> log.txt
+pip3 install -r requirements.txt
+yes | python3 ./code_analysis.py >> log.txt
 
 ## Reproduce main paper and supplementary material (SM) figures ##
 

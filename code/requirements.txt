@@ -1,0 +1,4 @@
+-e git+https://github.com/atkindel/methodologist.git@f79c9c6bedf27643db41b8de8081c464c893411e#egg=methodologist
+singledispatch==3.4.0.3
+six==1.11.0
+rpy2==2.9.2
