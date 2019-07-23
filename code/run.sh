@@ -49,7 +49,7 @@ Rscript ./code_analysis.R >> log.txt
 # Matt: Generates SM figure S19 (prediction distances compared to truth)
 Rscript ./compare_predictions_truth.R >> log.txt
 
-# Ian: TODO Generates privacy redaction counts
+# Ian: Generates privacy redaction counts
 Rscript ./privacy_redaction_count.R >> log.txt
 
 
