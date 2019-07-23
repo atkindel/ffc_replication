@@ -125,7 +125,7 @@ user_modeltypes %>%
   geom_col() +
   labs(x="# users",
        y="Model type") +
-  ggsave(file.path(results.dir, "figures", "s17_modelcounts.pdf"),
+  ggsave(file.path(results.dir, "figures", "s16_modelcounts.pdf"),
          height = 4, width = 6.5)
 
 
@@ -160,7 +160,7 @@ pipeline_scores %>%
   scale_x_log10() +
   facet_wrap(~outcome, scales="free") +
   labs(x="# data preparation function calls (log scale)", y=expression("Holdout "*R^2)) + 
-  ggsave(file.path(results.dir, "figures", "s18_dataprep_r2.pdf"),
+  ggsave(file.path(results.dir, "figures", "s17_dataprep_r2.pdf"),
          height=6, width=8)
 
 
@@ -179,5 +179,5 @@ pipeline_scores %>%
   facet_wrap(~outcome, scales = "free") +
   xlim(0, NA) +
   labs(x=expression("Holdout "*R^2), y="Model category (non-exclusive)") + 
-  ggsave(file.path(results.dir, "figures", "s19_modeltype_r2.pdf"),
+  ggsave(file.path(results.dir, "figures", "s18_modeltype_r2.pdf"),
          height=6, width=8)

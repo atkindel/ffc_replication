@@ -11,7 +11,6 @@ library(magrittr)
 library(reshape2)
 library(scales)
 library(here)
-library(haven)
 
 # Set ggplot2 theme
 theme_set(theme_bw())
@@ -33,13 +32,12 @@ background <- read.csv(file.path(private.data.dir, "background.csv"))
 #  3. Classify missingness of each value in data frame
 background %<>%
   mutate(missing_count = apply(background, 1, function(x) sum(x %in% c(-9:-1, NA)))) %>%
-  arrange(missing_count) %T>%
-  {. %>% select(challengeID, missing_count) -> missing_data_counts_ordered} %>%  # Store missing counts
-  select(-missing_count) %>%  # Drop count column
-  melt(id = "challengeID") %>%
-  mutate(challengeID = as_factor(as.character(challengeID), levels=challengeID),
-         missing_type = as.factor(ifelse(value %in% c(-9:-1, NA), "Missing", "Not missing"))) %>%
-  mutate(value = ifelse(missing_type == "Not missing", 1, value))
+  arrange(missing_count) %>%
+  mutate(rn = row_number()) %>%  # Store an ID number for plotting in missingness order later
+  select(-missing_count, -challengeID) %>%  # Drop count column
+  melt(id = "rn") %>%
+  mutate(missing_type = as.factor(ifelse(value %in% c(-9:-1, NA), "Missing", "Not missing")),
+         value = ifelse(missing_type == "Not missing", 1, value))
 print("Done preparing background data file.")
 
 # Summarize missingness data; plot proportion by type
@@ -80,7 +78,7 @@ background %>%
 # Plot heatmap of missingness by cell ("swiss cheese" plot)
 print("Plotting missingness by cell...")
 background %>%
-  ggplot(aes(x=variable, y=challengeID, fill=missing_type)) +
+  ggplot(aes(x=variable, y=rn, fill=missing_type)) +
   geom_raster() +
   scale_fill_manual(values=c("#8856a7", "#9ebcda")) +
   coord_fixed(ratio = 1) +

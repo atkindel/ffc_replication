@@ -354,6 +354,8 @@ write_csv(
 
 estimates_with_intervals <- foreach(outcome_case = outcomes, .combine = "rbind") %do% {
   squared_errors <- submissions %>% 
+    # Restrict to qualifying submissions
+    filter(beatingBaseline) %>%
     bind_rows(benchmarks_long) %>%
     bind_rows(submissions %>%
                 group_by(outcome, challengeID) %>%
@@ -364,10 +366,6 @@ estimates_with_intervals <- foreach(outcome_case = outcomes, .combine = "rbind")
                        r2_holdout = 0,
                        beatingBaseline = F)) %>%
     filter(outcome == outcome_case) %>%
-    # Remove cases where all predictions are within .001 of the baseline
-    group_by(account) %>%
-    mutate(predicts_baseline = all(abs(prediction - ybar_train) < .001)) %>%
-    filter(!predicts_baseline | account == "baseline") %>%
     filter(!is.na(truth)) %>%
     mutate(sq_error = (truth - prediction) ^ 2) %>%
     select(challengeID, account, sq_error) %>%
@@ -694,21 +692,6 @@ estimates_with_intervals %>%
   ggsave(file.path(results.dir, "figures", "s7c_benchmarks_C.pdf"),
          height = 2, width = 6.5)
 
-estimates_with_intervals %>%
-  filter(account == "performanceMultiplying" & method == "bootstrap") %>%
-  ggplot(aes(x = outcome_name, y = point, 
-             label = format(round(point,2),digits = 2))) +
-  geom_hline(yintercept = 0, linetype = "dashed") +
-  geom_label() +
-  theme_bw() +
-  scale_x_discrete(name = element_blank()) +
-  scale_y_continuous(name = expression(atop({R^2}[Holdout],frac(Best,Benchmark)))) +
-  theme(legend.title = element_blank(),
-        legend.position = "none",
-        panel.grid.major.x = element_blank()) +
-  ggsave(file.path(results.dir, "figures", "s7d_benchmarks_D.pdf"),
-         height = 2, width = 6.5)
-
 
 # Plot showing alternative benchmarks
 estimates_with_intervals %>%
@@ -826,7 +809,7 @@ dev.off()
 
 public_data <- read_dta(file.path(private.data.dir, "FF_Y15_pub.dta")) %>% select(idnum, cp6source)
 idLinkage <- read_csv(file.path(private.data.dir, "idLinkage.csv"))
-leaderboardUnfilled <- read_csv(file.path(data.dir, "leaderboardUnfilled.csv"))
+leaderboardUnfilled <- read_csv(file.path(private.data.dir, "leaderboardUnfilled.csv"))
 
 train %>%
   bind_rows(leaderboardUnfilled %>%
@@ -853,7 +836,7 @@ for (outcome_case in outcomes) {
   max_r2 <- max((submissions %>%
                    filter(outcome == outcome_case))$r2_holdout)
   estimates_with_intervals %>%
-    filter(point > 0 & account %in% submissions$account & outcome == outcome_case) %>%
+    filter(account %in% submissions$account & outcome == outcome_case) %>%
     mutate(account = fct_reorder(account, point)) %>%
     ggplot(aes(x = point, y = account)) +
     #geom_segment(aes(x = ci.min, xend = ci.max, yend = account)) +
@@ -877,6 +860,15 @@ for (outcome_case in outcomes) {
                      paste0("s12", outlist[outcome_case], "_scoresBeatingBaseline_not01_", outcome_case,".pdf")),
            height = 12, width = 3)
 }
+
+# Check that this is the number of qualifying submissions
+num_account_in_s12 <- estimates_with_intervals %>%
+  filter(account %in% submissions$account) %>%
+  group_by(account) %>%
+  filter((1:n()) == 1) %>%
+  group_by() %>%
+  summarize(num = n())
+# This matches the 137 that we expect, who qualified on at least 1 outcome
 
 #####################################################
 # Plot of % of submissions worse than the benchmark #
