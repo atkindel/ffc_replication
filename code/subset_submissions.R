@@ -82,7 +82,7 @@ submissions_with_score_indicator <- test %>%
             by = c("challengeID","outcome")) %>%
   group_by(outcome, account) %>%
   mutate(r2_holdout = 1 - mean((truth - prediction) ^ 2, na.rm = T) / mean((truth - ybar_train) ^ 2, na.rm = T),
-         beatingBaseline = r2_holdout > 0) %>%
+         beatingBaseline = r2_holdout > 10^-4) %>%
   mutate(outcome_name = case_when(outcome == "materialHardship" ~ "A. Material\nhardship",
                                   outcome == "gpa" ~ "B. GPA",
                                   outcome == "grit" ~ "C. Grit",

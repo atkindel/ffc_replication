@@ -832,14 +832,17 @@ outlist = c("materialHardship" = "a", "gpa" = "b", "grit" = "c",
             "eviction" = "d", "jobTraining" = "e", "layoff" = "f")
 
 for (outcome_case in outcomes) {
+  # Get a list of valid accounts
+  valid_accounts <- submissions %>% filter(beatingBaseline & outcome == outcome_case) %>% distinct(account) %$% account
+  
   # Get the maximum R^2 for use in the axis limits of the plot
-  max_r2 <- max((submissions %>%
-                   filter(outcome == outcome_case))$r2_holdout)
+  max_r2 <- max((submissions %>% filter(outcome == outcome_case))$r2_holdout)
+  
   estimates_with_intervals %>%
-    filter(account %in% submissions$account & outcome == outcome_case) %>%
+    # filter(account %in% submissions$account & outcome == outcome_case) %>%
+    filter(account %in% valid_accounts & outcome == outcome_case) %>%
     mutate(account = fct_reorder(account, point)) %>%
     ggplot(aes(x = point, y = account)) +
-    #geom_segment(aes(x = ci.min, xend = ci.max, yend = account)) +
     geom_point() +
     xlab(expression({R^2}[Holdout])) +
     scale_x_continuous(limits = c(0,ceiling(100*max_r2) / 100),
@@ -950,30 +953,6 @@ winner_bs %>%
   ylim(c(0,1)) +
   ggsave(file.path(results.dir, "figures", "s11_unsure_of_winner.pdf"),
          height = 3.5, width = 6.5)
-
-#########################################
-# Alternative confidence intervals plot #
-#########################################
-
-estimates_with_intervals %>%
-  filter(account == "max") %>%
-  mutate(method = case_when(method ==  "bootstrap" ~ "A. Bootstrap quantiles",
-                            method == "bootstrapNormal" ~ "B. Normal approximation\nwith bootstrap variance",
-                            method == "analytical" ~ "C. Normal approximation\nwith analytical variance")) %>%
-  ggplot(aes(x = outcome_name, y = point, 
-             ymin = ci.min, ymax = ci.max,
-             color = method, shape = method)) +
-  geom_errorbar(position = position_dodge(width = .7),
-                width = .5) +
-  geom_point(position = position_dodge(width = .7)) +
-  ylab(expression({R^2}[Max])) +
-  scale_x_discrete(name = element_blank()) +
-  theme_bw() +
-  theme(legend.key.height = unit(.4,"in"),
-        axis.title.y = element_text(angle = 0, vjust = .5),
-        legend.title = element_blank()) +
-  ggsave(file.path(results.dir, "figures", "s14_ci_options.pdf"),
-         height = 4, width = 6.5)
 
 #################################################
 # Alternative estimators of out-of-sample error #

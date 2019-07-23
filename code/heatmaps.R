@@ -40,7 +40,7 @@ for (outcome.to.plot in outcomes.to.plot) {
   
   # Get predictions for this outcome
   data.to.plot <- predictions %>%
-    filter(outcome == outcome.to.plot) %>%  
+    filter(outcome == outcome.to.plot) %>%
     filter(beatingBaseline == TRUE) %>%
     filter(!is.na(truth)) %>%
     select(account, challengeID, sq.err, mse.account.outcome, mse_unit_outcome) %>%

@@ -116,18 +116,18 @@ for (outcome_var in summary_results$outcomes) {
   # })
   
   # Compute RMSE; add indicator for rows with truth comparison
-  comp %<>% mutate(rmse = sqrt(mse),
-                   include_truth = ((account_1 == "truth") | (account_2 == "truth")))
+  compare_preds %<>% mutate(rmse = sqrt(mse),
+                            include_truth = ((account_1 == "truth") | (account_2 == "truth")))
   
   # Compute MSE between two predictions
-  mse_predictions <- comp %>% 
+  mse_predictions <- compare_preds %>% 
     filter(include_truth == FALSE) %>% 
     pull(mse) %>% 
     summary() %>%
     tidy()
   
   # MSE between prediction and truth
-  mse_prediction_truth <- comp %>% 
+  mse_prediction_truth <- compare_preds %>% 
     filter(include_truth == TRUE) %>% 
     pull(mse) %>% 
     summary() %>%
@@ -148,7 +148,7 @@ for (outcome_var in summary_results$outcomes) {
   )
   
   # Store histogram of prediction comparisons for this outcome
-  histograms_list[[outcome_var]] <- ggplot(comp, aes(x = mse)) + 
+  histograms_list[[outcome_var]] <- ggplot(compare_preds, aes(x = mse)) + 
     geom_histogram(bins = 30) + # 30 is arbitrary 
     facet_wrap(~ include_truth, 
                labeller = as_labeller(label_names),
