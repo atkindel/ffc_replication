@@ -16,8 +16,10 @@ Rscript ./subset_submissions.R >> log.txt
 # Matt: Transforms Ian submission file into working data frames
 Rscript ./prep_predictions.R >> log.txt
 
-# Alex: Performs data preparation for code analysis
-# NOTE: Requires python3 and several dependencies
+# Alex: Performs data preparation for code analysis (experimental)
+# NOTE: Requires python3 and dependencies specified in requirements.txt
+# This generates ffc_code.csv, but may be buggy depending on your setup
+# Comment out these three lines if you're having trouble regenerating ffc_code.csv successfully
 bash ./prep_data.sh >> log.txt
 pip3 install -r requirements.txt
 yes | python3 ./code_analysis.py >> log.txt
