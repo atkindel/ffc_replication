@@ -19,6 +19,7 @@ Rscript ./prep_predictions.R >> log.txt
 # Alex: Performs data preparation for code analysis (experimental)
 # NOTE: Requires python3 and dependencies specified in requirements.txt
 # This generates ffc_code.csv, but may be buggy depending on your setup, so we don't run it by default
+# Just use the included ffc_code.csv if you don't want to try running this
 # bash ./prep_data.sh >> log.txt
 # pip3 install -r requirements.txt
 # yes | python3 ./code_analysis.py >> log.txt
