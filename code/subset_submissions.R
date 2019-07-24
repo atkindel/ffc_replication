@@ -82,7 +82,7 @@ submissions_with_score_indicator <- test %>%
             by = c("challengeID","outcome")) %>%
   group_by(outcome, account) %>%
   mutate(r2_holdout = 1 - mean((truth - prediction) ^ 2, na.rm = T) / mean((truth - ybar_train) ^ 2, na.rm = T),
-         beatingBaseline = r2_holdout > 10^-4) %>%
+         beatingBaseline = r2_holdout > 10^-4) %>%  # Set threshold a little over 0 to avoid numerical precision issues
   mutate(outcome_name = case_when(outcome == "materialHardship" ~ "A. Material\nhardship",
                                   outcome == "gpa" ~ "B. GPA",
                                   outcome == "grit" ~ "C. Grit",
@@ -92,6 +92,7 @@ submissions_with_score_indicator <- test %>%
   select(outcome, outcome_name, account, challengeID, prediction, truth, ybar_train, r2_holdout, beatingBaseline) %>%
   arrange(outcome_name, account, challengeID)
 
+print("Writing files")
 write_csv(submissions_with_score_indicator,
           path = file.path(data.dir, "submissions.csv"))
 
