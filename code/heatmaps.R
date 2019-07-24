@@ -2,7 +2,7 @@
 # Outputs: 1) heatmaps of squared error for all six outcomes, Fig 3 from paper
 #          2) table of R^2 values for fixed effects models that goes in SM
 # By Matt Salganik (minor edits + optimization? by Alex Kindel)
-# Runtime: About 1 minute on a laptop 
+# Runtime: A few minutes on a laptop 
 
 library(tidyverse)
 library(forcats)
@@ -47,7 +47,7 @@ for (outcome.to.plot in outcomes.to.plot) {
     ungroup()
 
   # Estimate squared error by observation and by account
-  fits.challengeID[[outcome.to.plot]] <- lm(sq.err ~ challengeID, data.to.plot)
+  fits.challengeID[[outcome.to.plot]] <- lm(sq.err ~ as.factor(challengeID), data.to.plot)
   fits.account[[outcome.to.plot]] <- lm(sq.err ~ account, data.to.plot)
 
   # Order observation IDs and accounts by MSE on this outcome
@@ -130,9 +130,9 @@ table_to_print <- left_join(table_1,
                             table_2,
                             by = "outcome")
 
-#for (row in 1:6) {
-#  table_to_print[row, "outcome"] <- clean_outcome_label(table_to_print[row, "outcome"])
-#}
+for (row in 1:6) {
+  table_to_print[row, "outcome"] <- clean_outcome_label(table_to_print[row, "outcome"])
+}
 
 table_to_print$family.fixed.effects.model <- round(table_to_print$family.fixed.effects.model, 5)
 table_to_print$accounts.fixed.effects.model <- round(table_to_print$accounts.fixed.effects.model, 5)
