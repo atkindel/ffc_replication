@@ -22,8 +22,18 @@ results.dir <- file.path(here(), "results", "figures")
 # Set ggplot2 theme
 theme_set(theme_bw())
 
-# Source helper functions
-source(file.path(code.dir, "outcome_labels.R"))
+# Label helper functions
+clean_outcome_label <- function(outcome_label) {
+  pretty_outcome_label <- switch(outcome_label,
+                                 materialHardship = "A. Material hardship",
+                                 gpa = "B. GPA",
+                                 grit = "C. Grit",
+                                 layoff = "D. Layoff",
+                                 eviction = "E. Eviction",
+                                 jobTraining = "F. Job training",
+                                 outcome_label)
+  return(pretty_outcome_label)
+}
 
 # Load data
 load(file.path(working.data.dir, "processed_predictions.RData"))
@@ -95,14 +105,14 @@ ggsave(plot = p,
        path = results.dir, 
        device = "pdf", 
        dpi = 300,
-       width = 4.75, height = 6, units = "in")
+       width = 4.75, height = 8, units = "in")
 
 ggsave(plot = p,
        filename = "3_heatmaps_sqerr_6outcomes.png",
        path = results.dir,
        device = "png", 
        dpi = 300,
-       width = 4.75, height = 6, units = "in")
+       width = 4.75, height = 8, units = "in")
 
 # Build table of model fit results
 summary.fits.challengeID <- map_dfr(fits.challengeID, glance, .id = "outcome")
