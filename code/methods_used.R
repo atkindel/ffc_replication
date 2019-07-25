@@ -156,7 +156,7 @@ la_values %>%
   ggplot(aes(x=la, y=reorder(account, desc(account)))) +
   geom_tile() +
   scale_x_discrete(labels = function(x) str_wrap(x, width = 14)) +
-  labs(x="Reported learning algorithm steps",
+  labs(x="Reported learning algorithms used",
        y="Account") + 
   ggsave(file.path(results.dir, "figures", "s22_reports_learningalg.pdf"),
          height=10, width=13)
