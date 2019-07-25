@@ -56,6 +56,9 @@ Rscript ./code_analysis.R >> log.txt
 # Matt: Generates SM figure S19 (prediction distances compared to truth)
 Rscript ./compare_predictions_truth.R >> log.txt
 
+# Alex: Generates SM figures S20-23 (methods used in the Challenge)
+Rscript ./methods_used.R >> log.txt
+
 # Ian: Generates privacy redaction counts
 Rscript ./privacy_redaction_count.R >> log.txt
 

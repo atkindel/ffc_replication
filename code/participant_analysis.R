@@ -18,13 +18,13 @@ results.dir <- file.path(here(), "results")
 theme_set(theme_bw())
 
 # Load participant survey
-participants <- read.csv("~/Code/ffchallenge/participants/application_data.csv")
+participants <- read.csv(file.path(data.dir, "application_data.csv")
 
 # Pre-filter
 participants %>%
   filter(Status == "IP Address") %>%
   slice(-c(1, 2, 18)) %>%  # Test responses
-  filter(Finished == "True") %>%
+  filter(Finished == "TRUE") %>%
   filter(Q11 != "") ->  # Responses missing intake questions
   participants_clean
 
