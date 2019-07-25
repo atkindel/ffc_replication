@@ -23,47 +23,43 @@ valid <- read.csv(file.path(data.dir, "author_methods.csv"))
 methods %<>% filter(account %in% valid$account)
 
 
-# Handle data preparation table
-
-# Extract range of values
-# We use the most expansive set known
-# (i.e. we merge all form responses for each account)
+# Handle data preparation table responses
 methods %>%
   select(account, data_preparation) %>%
   separate_rows(data_preparation, sep=",") %>%
   mutate(dp = trimws(data_preparation)) %>%
   select(account, dp) %>%
   distinct(account, dp) ->
-  dataprep_values
+  dp_values
 
-# unique(dataprep_values$dp)  # To inspect response range manually
+# unique(dp_values$dp)  # To inspect response range manually
 
 # Collapse model-based feature selection
 # Save these for next table, then drop them (they're not data preparation)
 mbfs <- c("Creating synthetic features with PCA", "Feature selection with with k-means clustering")
-dataprep_values %<>% mutate(dp = ifelse(dp %in% mbfs, "Model-based feature selection (e.g. F-test or LASSO)", dp))
-dataprep_values %>% filter(dp == "Model-based feature selection (e.g. F-test or LASSO)") %>% transmute(account=account, fs=dp) -> mbfs
-dataprep_values %<>% filter(dp != "Model-based feature selection (e.g. F-test or LASSO)")
+dp_values %<>% mutate(dp = ifelse(dp %in% mbfs, "Model-based feature selection (e.g. F-test or LASSO)", dp))
+dp_values %>% filter(dp == "Model-based feature selection (e.g. F-test or LASSO)") %>% transmute(account=account, fs=dp) -> mbfs
+dp_values %<>% filter(dp != "Model-based feature selection (e.g. F-test or LASSO)")
 
 # Drop invalid other responses
 invalid_dp <- c("please use answers submitted by Bingyu Zhao", "Information provided by team member Bingyu Zhao", "")
-dataprep_values %<>% filter(!(dp %in% invalid_dp))
+dp_values %<>% filter(!(dp %in% invalid_dp))
 
 # Collapse model-based imputation
 mbi <- c("Model-based imputation", "KNN imputation algorithm", "kNN (k-Nearest Neighbors) imputation algorithm")
-dataprep_values %<>% mutate(dp = ifelse(dp %in% mbi, "Model-based imputation", dp))
+dp_values %<>% mutate(dp = ifelse(dp %in% mbi, "Model-based imputation", dp))
 
 # Collapse logical imputation
 logimp <- c("Imputation based on survey structure (e.g. skips)", "Logical imputation of caregiver properties based on other information in the survey")
-dataprep_values %<>% mutate(dp = ifelse(dp %in% logimp, "Logical imputation (e.g. using skips, other variables)", dp))
+dp_values %<>% mutate(dp = ifelse(dp %in% logimp, "Logical imputation (e.g. using skips, other variables)", dp))
 
 # Collapse dropping variables by logical/type tests
 drop_type <- c("Excluded 'constructed scales' with more than 30% missing values", "Dropping variables with more than 70% missing values",
                "dropping columns containing strings")
-dataprep_values %<>% mutate(dp = ifelse(dp %in% drop_type, "Dropping variables based on logical or type criteria", dp))
+dp_values %<>% mutate(dp = ifelse(dp %in% drop_type, "Dropping variables based on logical or type criteria", dp))
 
 # Produce figure
-dataprep_values %>%
+dp_values %>%
   distinct(account, dp) %>%
   ggplot(aes(x=dp, y=reorder(account, desc(account)))) +
   geom_tile() +
@@ -74,7 +70,7 @@ dataprep_values %>%
          height=10, width=12)
 
 
-# Handle feature selection table
+# Handle feature selection table responses
 methods %>%
   select(account, feature_selection) %>%
   separate_rows(feature_selection, sep=",") %>%
@@ -92,14 +88,15 @@ invalid_fs <- c("Information provided by team member Bingyu Zhao", "please use a
 fs_values %<>% filter(!(fs %in% invalid_fs))
 
 # Merge model-based feature selection
-mbfs <- c("Model-based feature selection", "Model-based feature selection (e.g. F-test or LASSO)",
+mdfs <- c("Model-based feature selection", "Model-based feature selection (e.g. F-test or LASSO)",
           "Select K Best using chi square statistics of each feature", "Correlation based selection",
           "Boruta: Wrapper Algorithm for All Relevant Feature Selection", "Used Boruta package to select features",
           "Extra Trees Regression Algorithm", "Randomized Lasso", "Random Forest using Gini score",
           "Mutual information", "random forest based feature selection", "Extra Trees Regressor algorithm",
           "Sparse Linear Models", "F-test")
-fs_values %<>% mutate(fs = ifelse(fs %in% mbfs, "Model-based feature selection (e.g. F-test or LASSO)", fs))
+fs_values %<>% mutate(fs = ifelse(fs %in% mdfs, "Model-based feature selection (e.g. F-test or LASSO)", fs))
 
+# Produce figure
 fs_values %>%
   distinct(account, fs) %>%
   ggplot(aes(x=fs, y=reorder(account, desc(account)))) +
@@ -108,4 +105,95 @@ fs_values %>%
   labs(x="Reported feature selection steps",
        y="Account") + 
   ggsave(file.path(results.dir, "figures", "s21_reports_featureselection.pdf"),
+         height=10, width=12)
+
+
+# Handle learning algorithm table responses
+methods %>%
+  select(account, learning_algorithm) %>%
+  separate_rows(learning_algorithm, sep=",") %>%
+  mutate(la = trimws(learning_algorithm)) %>%
+  select(account, la) %>%
+  distinct(account, la) ->
+  la_values
+
+# unique(la_values$la)  # To inspect response range manually
+
+# Drop invalid other responses
+invalid_la <- c("Information provided by team member Bingyu Zhao", "Please use answers submitted by Bingyu Zhao", "")
+la_values %<>% filter(!(la %in% invalid_la))
+
+# Combine kernel methods
+kernel <- c("Support Vector Machine", "Support Vector Regression", "Gaussian Process Regression",
+            "Kernel methods (e.g. kernel ridge regression or support vector machines)")
+la_values %<>% mutate(la = ifelse(la %in% kernel, "Kernel methods (e.g. kernel ridge regression or support vector machines)", la))
+
+# Combine ensemble methods
+ensemble <- c("Ensembling", "Bagging")
+la_values %<>% mutate(la = ifelse(la %in% ensemble, "Ensembling", la))
+
+# Combine gradient boosting methods
+gbt <- c("Stochastic Gradient Boosting", "Gradient-boosted trees")
+la_values %<>% mutate(la = ifelse(la %in% gbt, "Gradient-boosted trees", la))
+
+# Combine classification
+classif <- c("Multinomial Naive Bayes", "Bernoulli Naive Bayes", "Linear Discriminant Analysis",
+             "K-Nearest Neighbors", "k-nearest neighbors", "Naive bayes")
+la_values %<>% mutate(la = ifelse(la %in% classif, "Gradient-boosted trees", la))
+
+# Combine LASSO
+lasso <- c("LASSO", "Lasso + Least Angle Regression")
+la_values %<>% mutate(la = ifelse(la %in% lasso, "Gradient-boosted trees", la))
+la_values %<>% rbind(c("cjqian", "Least angle regression"))  # Also save LARS use
+
+# Combine other
+other <- c("Least angle regression", "Cubist", "Mars", "Huber regression", "Neural networks", "Spike and slab using Gnet")
+la_values %<>% mutate(la = ifelse(la %in% other, "Other (e.g. neural networks or other regression models)", la))
+
+# Produce figure
+la_values %>%
+  distinct(account, la) %>%
+  ggplot(aes(x=la, y=reorder(account, desc(account)))) +
+  geom_tile() +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 14)) +
+  labs(x="Reported learning algorithm steps",
+       y="Account") + 
+  ggsave(file.path(results.dir, "figures", "s22_reports_learningalg.pdf"),
+         height=10, width=13)
+
+
+# Handle model selection table responses
+methods %>%
+  select(account, model_selection) %>%
+  separate_rows(model_selection, sep=",") %>%
+  mutate(ms = trimws(model_selection)) %>%
+  select(account, ms) %>%
+  distinct(account, ms) ->
+  ms_values
+
+# unique(ms_values$ms)  # To inspect response range manually
+
+# Drop invalid other responses
+invalid_ms <- c("Information provided by team member Bingyu Zhao", "please use answers submitted by Bingyu Zhao", "")
+ms_values %<>% filter(!(ms %in% invalid_ms))
+
+# Collapse training set performance responses
+tsp <- c("R^2", "R-squared and psuedo R-squared", "precision/accuracy/f1-score performance in cross-validation within the training set",
+         "MSE performance in training set", "MSE performance in split test set")
+ms_values %<>% mutate(ms = ifelse(ms %in% tsp, "MSE performance in training set", ms))
+
+# Collapse measures of variable importance
+mvi <- c("Measures of variable importance (e.g. marginal effects or weights)", "Weights based on out of bag performance of each random forest",
+         "Assessing groups/clusters of features")
+ms_values %<>% mutate(ms = ifelse(ms %in% mvi, "Measures of variable importance (e.g. marginal effects)", ms))
+
+# Produce figure
+ms_values %>%
+  distinct(account, ms) %>%
+  ggplot(aes(x=ms, y=reorder(account, desc(account)))) +
+  geom_tile() +
+  scale_x_discrete(labels = function(x) str_wrap(x, width = 14)) +
+  labs(x="Reported model interpretation steps",
+       y="Account") + 
+  ggsave(file.path(results.dir, "figures", "s23_reports_modelinterp.pdf"),
          height=10, width=12)
