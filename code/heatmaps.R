@@ -28,9 +28,9 @@ clean_outcome_label <- function(outcome_label) {
                                  materialHardship = "A. Material hardship",
                                  gpa = "B. GPA",
                                  grit = "C. Grit",
-                                 layoff = "D. Layoff",
-                                 eviction = "E. Eviction",
-                                 jobTraining = "F. Job training",
+                                 layoff = "F. Layoff",
+                                 eviction = "D. Eviction",
+                                 jobTraining = "E. Job training",
                                  outcome_label)
   return(pretty_outcome_label)
 }
