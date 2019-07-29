@@ -159,7 +159,7 @@ pipeline_scores %>%
   geom_point() +
   scale_x_log10() +
   facet_wrap(~outcome, scales="free") +
-  labs(x="# data preparation function calls (log scale)", y=expression("Holdout "*R^2)) + 
+  labs(x="# of data preparation function calls (log scale)", y=expression("Holdout "*R^2)) + 
   ggsave(file.path(results.dir, "figures", "s17_dataprep_r2.pdf"),
          height=6, width=8)
 

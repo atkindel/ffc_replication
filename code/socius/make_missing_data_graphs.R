@@ -81,6 +81,8 @@ background %>%
   ggplot(aes(x=variable, y=rn, fill=missing_type)) +
   geom_raster() +
   scale_fill_manual(values=c("#8856a7", "#9ebcda")) +
+  scale_x_discrete(expand=c(0,0)) +
+  scale_y_discrete(expand=c(0,0)) +
   coord_fixed(ratio = 1) +
   labs(y="Family", title="Variable") + 
   theme(axis.text.x = element_blank(),
@@ -90,7 +92,8 @@ background %>%
         axis.title.x = element_blank(),
         plot.title = element_text(hjust = 0.5),
         legend.position = "bottom",
-        legend.title = element_blank()) ->
+        legend.title = element_blank(),
+        panel.border = element_blank()) ->
   p3a
 print("Done plotting.")
 
