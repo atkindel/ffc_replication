@@ -67,7 +67,7 @@ background %>%
             position = position_dodge(width = 1),
             hjust = -0.5) +
   # Adjust plot aesthetics
-  scale_fill_manual("legend", values = c("grey" = "grey30", "blue" = "blue")) +
+  scale_fill_manual("legend", values = c("grey" = "#8856a7", "blue" = "#9ebcda")) +
   scale_y_continuous(labels=scales::percent, limits=c(0, 0.45)) +
   theme(legend.position="none") +
   labs(x="Data entry",
