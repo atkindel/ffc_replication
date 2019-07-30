@@ -1,21 +1,12 @@
-
 #####################################
 ## Plots for:                      ##
 ## Measuring the Predictability of ##
 ## Life Outcomes with a Scientific ##
-## Mass Collaboartion              ##
+## Mass Collaboration              ##
 #####################################
 
 ## Code by Ian Lundberg
 ## ilundberg at princeton dot edu
-
-#################################################
-## Identify the directory of Github files      ##
-## and where we will save intermediate results ##
-#################################################
-
-# To run this code, you will need to update the three lines below
-# github.location must contain the ffchallenge and ffchallenge_data repositories
 
 ############################
 ## Load required packages ##
@@ -1115,9 +1106,9 @@ draws_evaluation %>%
               filter(account == "max" & method == "analytical") %>%
               mutate(quantity = "max") %>%
               select(outcome, quantity, point, ci.min, ci.max)) %>%
-  mutate(estimator = case_when(quantity == "max" ~ "A. One set for both\nselection and evaluation",
-                               quantity == "splitSample" ~ "B. Separate selection\nand evaluation sets\n(averaged over 100 reps)",
-                               quantity == "stacked" ~ "C. Separate sets\nweighted average\n(averaged over 100 reps)"),
+  mutate(estimator = case_when(quantity == "max" ~ "a. One set for both\nselection and evaluation",
+                               quantity == "splitSample" ~ "b. Separate selection\nand evaluation sets\n(averaged over 100 reps)",
+                               quantity == "stacked" ~ "c. Separate sets\nweighted average\n(averaged over 100 reps)"),
          outcome = case_when(outcome == "materialHardship" ~ "A. Material\nhardship",
                              outcome == "gpa" ~ "B. GPA",
                              outcome == "grit" ~ "C. Grit",
