@@ -22,6 +22,7 @@
 ############################
 
 library(tidyverse)
+library(magrittr)
 library(haven)
 library(forcats)
 library(reshape2)

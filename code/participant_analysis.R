@@ -18,7 +18,7 @@ results.dir <- file.path(here(), "results")
 theme_set(theme_bw())
 
 # Load participant survey
-participants <- read.csv(file.path(data.dir, "application_data.csv")
+participants <- read.csv(file.path(data.dir, "application_data.csv"))
 
 # Pre-filter
 participants %>%
