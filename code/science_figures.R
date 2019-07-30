@@ -1106,15 +1106,17 @@ draws_evaluation %>%
               filter(account == "max" & method == "analytical") %>%
               mutate(quantity = "max") %>%
               select(outcome, quantity, point, ci.min, ci.max)) %>%
-  mutate(estimator = case_when(quantity == "max" ~ "a. One set for both\nselection and evaluation",
-                               quantity == "splitSample" ~ "b. Separate selection\nand evaluation sets\n(averaged over 100 reps)",
-                               quantity == "stacked" ~ "c. Separate sets\nweighted average\n(averaged over 100 reps)"),
-         outcome = case_when(outcome == "materialHardship" ~ "A. Material\nhardship",
-                             outcome == "gpa" ~ "B. GPA",
-                             outcome == "grit" ~ "C. Grit",
-                             outcome == "eviction" ~ "D. Eviction",
-                             outcome == "jobTraining" ~ "E. Job\ntraining",
-                             outcome == "layoff" ~ "F. Layoff")) %>%
+  mutate(estimator = case_when(quantity == "max" ~ "A. One set for both\nselection and evaluation",
+                               quantity == "splitSample" ~ "B. Separate selection\nand evaluation sets\n(averaged over 100 reps)",
+                               quantity == "stacked" ~ "C. Separate sets\nweighted average\n(averaged over 100 reps)"),
+         outcome = case_when(outcome == "materialHardship" ~ "Material\nhardship",
+                             outcome == "gpa" ~ "GPA",
+                             outcome == "grit" ~ "Grit",
+                             outcome == "eviction" ~ "Eviction",
+                             outcome == "jobTraining" ~ "Job\ntraining",
+                             outcome == "layoff" ~ "Layoff"),
+         outcome = fct_relevel(outcome, "Material\nhardship", "GPA", "Grit",
+                               "Eviction", "Job\ntraining", "Layoff")) %>%
   ggplot(aes(x = outcome, y = point, ymin = ci.min, ymax = ci.max,
              color = estimator, shape = estimator)) +
   geom_hline(yintercept = 0, linetype = "dashed") +
