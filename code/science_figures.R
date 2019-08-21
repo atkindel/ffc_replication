@@ -21,7 +21,6 @@ library(foreach)
 library(readstata13)
 library(Amelia)
 library(ranger)
-library(mvtnorm)
 library(quadprog)
 library(readr)
 library(here)
@@ -346,8 +345,6 @@ write_csv(
 
 estimates_with_intervals <- foreach(outcome_case = outcomes, .combine = "rbind") %do% {
   squared_errors <- submissions %>% 
-    # Restrict to qualifying submissions
-    filter(beatingBaseline) %>%
     bind_rows(benchmarks_long) %>%
     bind_rows(submissions %>%
                 group_by(outcome, challengeID) %>%
@@ -358,6 +355,10 @@ estimates_with_intervals <- foreach(outcome_case = outcomes, .combine = "rbind")
                        r2_holdout = 0,
                        beatingBaseline = F)) %>%
     filter(outcome == outcome_case) %>%
+    # Remove cases where all predictions are within .001 of the baseline
+    group_by(account) %>%
+    mutate(predicts_baseline = all(abs(prediction - ybar_train) < .001)) %>%
+    filter(!predicts_baseline | account == "baseline") %>%
     filter(!is.na(truth)) %>%
     mutate(sq_error = (truth - prediction) ^ 2) %>%
     select(challengeID, account, sq_error) %>%
@@ -410,8 +411,8 @@ estimates_with_intervals <- foreach(outcome_case = outcomes, .combine = "rbind")
   point_difference <- r2_point_max - r2_point[benchmark]
   point_performanceMultiplying <- r2_point_max / r2_point[benchmark]
   point_gapClosing <- (r2_point_max - r2_point[benchmark]) / (1 - r2_point[benchmark])
-
-  # PURE BOOTSTRAP CIs
+  
+  # BOOTSTRAP CIs
   # First: CI for every submission and every benchmark
   ci_all_bootstrap <- apply(r2_boot, 2, function(x) sort(x)[c(250,9750)])
   # Take the best submission in each bootstrap draw
@@ -424,46 +425,12 @@ estimates_with_intervals <- foreach(outcome_case = outcomes, .combine = "rbind")
   ci_performanceMultiplying_bootstrap <- sort(best_score_draws / r2_boot[,benchmark])[c(250,9750)]
   ci_gapClosing_bootstrap <- sort((best_score_draws - r2_boot[,benchmark]) / (1 - r2_boot[,benchmark]))[c(250,9750)]
   
-  # CIs COMBINING BOOTSTRAP AND NORMAL APPROXIMATION
-  # Calculate a bootstrap estimate of the variance-covariance matrix for submissions
-  r2_sigma_boot <- var(r2_boot[,submission_indicators & !same])
-  ci_max_bootstrapNormal <- c(
-    qmvnorm(p = .025, tail = "lower.tail", mean = r2_point[submission_indicators & !same], sigma = r2_sigma_boot)$quantile,
-    qmvnorm(p = .975, tail = "lower.tail", mean = r2_point[submission_indicators & !same], sigma = r2_sigma_boot)$quantile
-  )
-  
-  # ANALYTICAL CI
-  # Calculate an analytical estimate of the variance-covariance matrix
-  mse_sigma_analytical <- var(squared_errors[,notBenchmark_indicators & !same]) / nrow(squared_errors)
-  mse_point <- colMeans(squared_errors[,notBenchmark_indicators & !same])
-  r2_sigma_analytical <- matrix(NA, 
-                                nrow = nrow(mse_sigma_analytical),
-                                ncol = ncol(mse_sigma_analytical),
-                                dimnames = dimnames(mse_sigma_analytical))
-  for(name1 in rownames(r2_sigma_analytical)) {
-    for(name2 in colnames(r2_sigma_analytical)) {
-      r2_sigma_analytical[name1,name2] <- 1 / mse_point["baseline"]^2 * mse_sigma_analytical[name1,name2] -
-        mse_point[name2] / mse_point["baseline"]^3 * mse_sigma_analytical[name1,"baseline"] -
-        mse_point[name1] / mse_point["baseline"]^3 * mse_sigma_analytical[name2,"baseline"] +
-        mse_point[name1] * mse_point[name2] / mse_point["baseline"]^4 * mse_sigma_analytical["baseline","baseline"]
-    }
-  }
-  # Remove the baseline, which would make the matrix not positive definite
-  r2_sigma_analytical <- r2_sigma_analytical[-1,-1]
-  # Calculate the confidence interval
-  ci_max_analytical <- c(
-    qmvnorm(p = .025, tail = "lower.tail", mean = r2_point[submission_indicators & !same], sigma = r2_sigma_analytical)$quantile,
-    qmvnorm(p = .975, tail = "lower.tail", mean = r2_point[submission_indicators & !same], sigma = r2_sigma_analytical)$quantile
-  )
-  
   # Prepare to return
   rownames(ci_all_bootstrap) <- 
     names(ci_max_bootstrap) <-
     names(ci_difference_bootstrap) <-
     names(ci_performanceMultiplying_bootstrap) <-
     names(ci_gapClosing_bootstrap) <-
-    names(ci_max_bootstrapNormal) <-
-    names(ci_max_analytical) <-
     c("ci.min", "ci.max")
   
   return(
@@ -475,17 +442,17 @@ estimates_with_intervals <- foreach(outcome_case = outcomes, .combine = "rbind")
       bind_rows(data.frame(t(ci_difference_bootstrap), point = point_difference, account = "difference", method = "bootstrap")) %>%
       bind_rows(data.frame(t(ci_performanceMultiplying_bootstrap), point = point_performanceMultiplying, account = "performanceMultiplying", method = "bootstrap")) %>%
       bind_rows(data.frame(t(ci_gapClosing_bootstrap), point = point_gapClosing, account = "gapClosing", method = "bootstrap")) %>%
-      bind_rows(data.frame(t(ci_max_bootstrapNormal), point = r2_point_max, account = "max", method = "bootstrapNormal")) %>%
-      bind_rows(data.frame(t(ci_max_analytical), point = r2_point_max, account = "max", method = "analytical")) %>%
       mutate(outcome = outcome_case)
   )
 } %>%
-  mutate(outcome_name = case_when(outcome == "materialHardship" ~ "A. Material\nhardship",
-                                  outcome == "gpa" ~ "B. GPA",
-                                  outcome == "grit" ~ "C. Grit",
-                                  outcome == "eviction" ~ "D. Eviction",
-                                  outcome == "jobTraining" ~ "E. Job\ntraining",
-                                  outcome == "layoff" ~ "F. Layoff"))
+  mutate(outcome_name = case_when(outcome == "materialHardship" ~ "Material\nhardship",
+                                  outcome == "gpa" ~ "GPA",
+                                  outcome == "grit" ~ "Grit",
+                                  outcome == "eviction" ~ "Eviction",
+                                  outcome == "jobTraining" ~ "Job\ntraining",
+                                  outcome == "layoff" ~ "Layoff"),
+         outcome_name = fct_relevel(outcome_name, "Material\nhardship", "GPA", "Grit",
+                                    "Eviction", "Job\ntraining", "Layoff"))
 write_csv(estimates_with_intervals,
           path = file.path(data.dir, "intermediate_files", "estimates_with_intervals.csv"))
 
@@ -885,10 +852,7 @@ estimates_with_intervals %>%
   group_by(outcome_name) %>%
   summarize(worse_than_benchmark = mean(point < benchmark)) %>%
   group_by() %>%
-  mutate(outcome_name = as.character(outcome_name),
-         outcome_name = substr(outcome_name, start = 3, stop = nchar(outcome_name)),
-         outcome_name = factor(outcome_name),
-         outcome_name = fct_reorder(outcome_name, -worse_than_benchmark)) %>%
+  mutate(outcome_name = fct_reorder(outcome_name, -worse_than_benchmark)) %>%
   ggplot(aes(x = outcome_name, y = worse_than_benchmark,
              label = format(round(worse_than_benchmark,2),digits = 2))) +
   geom_bar(stat = "identity", fill = "blue") +
