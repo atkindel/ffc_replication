@@ -140,9 +140,10 @@ table_to_print <- left_join(table_1,
                             table_2,
                             by = "outcome")
 
-for (row in 1:6) {
-  table_to_print[row, "outcome"] <- clean_outcome_label(table_to_print[row, "outcome"])
-}
+# Redo outcome labels
+# This hard-codes the variable order
+table_to_print[, "outcome"] <- c("A. Material hardship", "B. GPA", "C. Grit",
+                                    "D. Eviction","E. Job training", "F. Layoff")
 
 table_to_print$family.fixed.effects.model <- round(table_to_print$family.fixed.effects.model, 5)
 table_to_print$accounts.fixed.effects.model <- round(table_to_print$accounts.fixed.effects.model, 5)
