@@ -24,14 +24,13 @@ theme_set(theme_bw())
 
 # Label helper functions
 clean_outcome_label <- function(outcome_label) {
-  pretty_outcome_label <- switch(outcome_label,
-                                 materialHardship = "A. Material hardship",
-                                 gpa = "B. GPA",
-                                 grit = "C. Grit",
-                                 layoff = "F. Layoff",
-                                 eviction = "D. Eviction",
-                                 jobTraining = "E. Job training",
-                                 outcome_label)
+  labs = list("materialHardship" = "A. Material hardship",
+              "gpa" = "B. GPA",
+              "grit" = "C. Grit",
+              "layoff" = "F. Layoff",
+              "eviction" = "D. Eviction",
+              "jobTraining" = "E. Job training")
+  pretty_outcome_label <- labs[[outcome_label]]
   return(pretty_outcome_label)
 }
 
