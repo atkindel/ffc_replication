@@ -8,6 +8,7 @@ library(readr)  # version 1.1.1
 library(tidyverse)  # version 1.2.1
 library(foreign)  # version 0.8-71
 library(here)
+library(purrr)
 
 # Note: In the current version of tidyverse, rename_() is deprecated
 # This produces a warning, but we want to still use it
@@ -16,13 +17,10 @@ library(here)
 # This happens when we load the raw data partway through this code
 
 # Set directories
-# raw_data_location must contain all raw FF files, including some subdirectories
 data.dir <- file.path(here(), "data")
 private.data.dir <- file.path(data.dir, "private")
 raw.data.dir <- file.path(private.data.dir, "all_public_data")
 results.dir <- file.path(here(), "results")
-
-raw_data_location <- "/Users/iandl/Dropbox/github/ffchallenge_data/all_public_data"
 
 # Write all results to a file
 sink(file.path(results.dir, "privacy_redaction_count.txt"))
@@ -47,14 +45,12 @@ read.dta(file.path(raw.data.dir, "ff_pub_merge2.dta"), convert.factors = F) %>% 
   # Merge year 9 data
   left_join(read.dta(file.path(raw.data.dir, "ff_y9_pub1.dta"), convert.factors = F),
             by = "idnum") %>%
-  # Merge year 3 in-home interview data (add hv3 prefix)  
-  left_join(read.dta(file.path(raw.data.dir, "InHome3yr.dta"), convert.factors = F) %>%
-              rename_(.dots = setNames(names(.)[-1], paste0("hv3", names(.)[-1]))),  
-            by = "idnum") %>%
+  # Merge year 3 in-home interview data (add hv3 prefix)
+  left_join(read.dta(file.path(raw.data.dir, "InHome3yr.dta"), convert.factors=F) %>%
+              set_names(paste0("hv3", names(.))), by=c("idnum"="hv3idnum")) %>%
   # Merge year 5 in-home interview data (add hv4 prefix)
-  left_join(read.dta(file.path(raw.data.dir, "Inhome5yr2011_stata", "inhome5yr2011.dta"), convert.factors = F) %>%
-              rename_(.dots = setNames(names(.)[-1], paste0("hv4", names(.)[-1]))),
-            by = "idnum") %>%
+  left_join(read.dta(file.path(raw.data.dir, "Inhome5yr2011_stata", "inhome5yr2011.dta"), convert.factors=F) %>%
+              set_names(paste0("hv4", names(.))), by=c("idnum"="hv4idnum")) %>%
   # Merge kindergarten teacher survey
   left_join(read.dta(file.path(raw.data.dir, "ff_kteachersurvey_fnlpub.dta"), convert.factors = F),
             by = "idnum") %>%
