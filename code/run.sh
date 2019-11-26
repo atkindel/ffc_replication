@@ -7,6 +7,8 @@ rm -f log.txt
 touch log.txt
 echo "Log from run: $(date)" >> log.txt
 
+## Package installation ##
+Rscript ./install_requirements.R >> log.txt
 
 ## Data preparation ##
 
