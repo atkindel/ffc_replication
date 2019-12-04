@@ -69,25 +69,30 @@ train %>%
          biggest = max(num),
          label_size = as.numeric(case_when(outcome %in% c("Eviction","Job training","Layoff") ~ 2,
                                            T ~ 1))) %>%
+  mutate(truth = factor(truth)) %>%
   ggplot(aes(x = truth, y = prop, label = prettyNum(num, big.mark = ","),
              width = case_when(outcome %in% c("Eviction","Layoff","Job training") ~ 1,
                                outcome == "Material hardship" ~ 1 / 11,
                                outcome %in% c("GPA","Grit") ~ 1 / 4))) +
-  geom_bar(stat = "identity", position = "identity", fill = "seagreen4") +
-  geom_text(aes(y = prop, size = label_size),
-            fontface = "bold", color = "seagreen4", vjust = -.5,
+  geom_point(color = "seagreen4", size = 1.5) +
+  geom_segment(aes(xend = truth, y = 0, yend = prop), color = "seagreen4") +
+  geom_text(aes(y = prop + .05),
+            size = 2.5,
+            fontface = "bold", color = "seagreen4", hjust = 0,
             show.legend = F) +
-  geom_text(aes(y = 1.2*prop),alpha = 0,
-            fontface = "bold", color = "seagreen4", vjust = -.5) +
-  facet_wrap(~outcome, scales = "free") +
+  facet_wrap(~outcome, scales = "free_y") +
   scale_size_continuous(range = c(1.5,4)) +
-  scale_x_continuous(labels = function(x) format(round(x,2), digits = 2)) +
+  scale_x_discrete(labels = function(x) format(round(as.numeric(x),2), nsmall = 2)) +
+  scale_y_continuous(limits = c(0,1.25), breaks = seq(0,1,.25)) +
   theme_bw() +
-  theme(strip.background = element_blank()) +
+  theme(strip.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank()) +
+  coord_flip() +
   xlab("Training outcome") +
-  ylab("Proportion of training sample\n(annotations provide count)") +
+  ylab("Proportion of training sample\n(annotations provide count)")+
   ggsave(file.path(results.dir, "figures", "s3_training_distribution.pdf"),
-         height = 4, width = 6.5)
+         height = 4.5, width = 6.5)
 
 ###############################
 ## Benchmarks for supplement ##
