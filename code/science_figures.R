@@ -85,7 +85,9 @@ train %>%
   scale_x_discrete(labels = function(x) format(round(as.numeric(x),2), nsmall = 2)) +
   scale_y_continuous(limits = c(0,1.25), breaks = seq(0,1,.25)) +
   theme_bw() +
-  theme(strip.background = element_blank()) +
+  theme(strip.background = element_blank(),
+        panel.grid.minor = element_blank(),
+        panel.grid.major.y = element_blank()) +
   coord_flip() +
   xlab("Training outcome") +
   ylab("Proportion of training sample\n(annotations provide count)")+
