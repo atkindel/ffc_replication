@@ -38,9 +38,11 @@ Rscript ./science_figures.R >> log.txt
 
 # Matt: Generates main paper figure 3 (prediction heatmaps)
 #  Also outputs SM table S6 (model fit for models of prediction error by account, observation)
+#  Generating all of the heatmaps at once requires ~6gb memory
 Rscript ./heatmaps.R >> log.txt
 
 # Matt: Generates SM figures S2a, S2b (missing data)
+#  Generating the heatmap in S2a requires ~14gb memory
 Rscript ./make_missing_data_graphs.R >> log.txt
 
 # Alex: Generates SM figures S4a, S4b, S5 (participant demographics)
