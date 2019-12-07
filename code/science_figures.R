@@ -472,6 +472,8 @@ white_space_plot <- estimates_with_intervals %>%
               rename(benchmark = point) %>%
               select(outcome, benchmark, on=outcome_name),
             by = "outcome") %>%
+  mutate(outcome_name = gsub(".) ","",outcome_name),
+         outcome_name = fct_reorder(outcome_name,-point)) %>%
   ggplot(aes(x = outcome_name, y = point)) +
   geom_bar(stat = "identity", fill = "gray") +
   geom_errorbar(aes(ymin = benchmark, ymax = benchmark), color = "black") +
