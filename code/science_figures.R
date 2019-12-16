@@ -489,7 +489,7 @@ white_space_plot <- estimates_with_intervals %>%
   ylab(expression({italic(R)^2}[Holdout])) +
   xlab("\nOutcome at child age 15") +
   ylim(c(-.05,1)) +
-  ggtitle(bquote("A) Best submission"~{italic(R)^2}[Holdout])) +
+  ggtitle("A) Best submission for each outcome") +
   theme_bw() +
   theme(axis.title.y = element_text(angle = 0, vjust = .5),
         panel.grid = element_blank())
