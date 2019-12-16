@@ -518,7 +518,7 @@ for (outcome_case in c("gpa","grit","materialHardship")) {
     geom_point(size = .2) +
     geom_hline(yintercept = mean(train[[outcome_case]], na.rm = T),
                linetype = "dashed") +
-    ylab("Prediction\n") +
+    ylab("Prediction") +
     xlab("Truth") +
     coord_fixed() +
     scale_x_continuous(limits = c(lower_limit,upper_limit),
