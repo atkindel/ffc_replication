@@ -2,7 +2,9 @@
 
 Replication materials for:
 - "Measuring the predictability of life outcomes using a scientific mass collaboration"
-- "Introduction to the Special Collection on the Fragile Families Challenge" 
+- "Introduction to the Special Collection on the Fragile Families Challenge"
+
+Private data required to replicate results are available through the Office of Population Research Data Archive at Princeton University: https://opr.princeton.edu/archive/restricted/Default.aspx
 
 ## Reproducing all results
 
