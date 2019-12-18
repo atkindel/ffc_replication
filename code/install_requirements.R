@@ -3,4 +3,4 @@ requirements <- c("tidyverse", "here", "foreach", "magrittr", "reshape2",
                   "broom", "gridExtra", "stargazer", "scales", "ggridges",
                   "corrr", "tidytext", "foreign")
 
-install.packages(requirements)
+install.packages(requirements, repos="https://cloud.r-project.org")
