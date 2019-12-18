@@ -103,5 +103,3 @@ ggsave(plot = p1, filename = "s2b_missing_data_background_bar.pdf", path = resul
        device = "pdf", dpi = 300, width = 3, height = 4.25, units = "in")
 ggsave(plot = p2, filename = "s2a_missing_data_background_heatmap.pdf", path = results.dir, 
        device = "pdf", dpi = 300, width = 4.25, height = 2.5, units = "in")
-ggsave(plot = p2, filename = "s2a_missing_data_background_heatmap.png", path = results.dir, 
-       device = "png", dpi = 300, width = 4.25, height = 2.5, units = "in")
