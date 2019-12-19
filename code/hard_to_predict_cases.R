@@ -98,7 +98,7 @@ for (outcome_to_plot in outcomes_to_plot) {
 
 # Save plots
 ggsave(plot = grid.arrange(grobs=plots, ncol=3),
-       filename = "s14_distribution_unitmse_truth_alloutcomes.pdf",
+       filename = "s13_distribution_unitmse_truth_alloutcomes.pdf",
        path = results.dir, 
        device = "pdf",
        dpi = 300,

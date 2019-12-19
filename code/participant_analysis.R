@@ -75,7 +75,7 @@ intentions %>%
   labs(title="Reasons for participating",
        y="Proportion",
        x="Reason") +
-  ggsave(file.path(results.dir, "figures", "s5_participant_intentions.pdf"),
+  ggsave(file.path(results.dir, "figures", "s4_participant_intentions.pdf"),
          height = 8, width = 6)
 
 
@@ -107,7 +107,7 @@ backgrounds %>%
   labs(title="Academic background",
        y="N",
        x="Discipline") +
-  ggsave(file.path(results.dir, "figures", "s4a_participant_disciplines.pdf"),
+  ggsave(file.path(results.dir, "figures", "s3a_participant_disciplines.pdf"),
          height = 4, width = 6.5)
 
 
@@ -138,5 +138,5 @@ employment %>%
   labs(title="Professional background",
        y="N",
        x="Type") +
-  ggsave(file.path(results.dir, "figures", "s4b_participant_professions.pdf"),
+  ggsave(file.path(results.dir, "figures", "s3b_participant_professions.pdf"),
          height = 4, width = 6.5)

@@ -164,7 +164,7 @@ for (outcome_var in summary_results$outcomes) {
 # Arrange and write out figure
 figure <- grid.arrange(grobs = histograms_list, nrow = 3)
 ggsave(plot = figure,
-       filename = "s19_comparing_predictions_truth_alloutcomes_histograms_only_cases_wtruth.pdf",
+       filename = "s12_comparing_predictions_truth_alloutcomes_histograms_only_cases_wtruth.pdf",
        path = results.dir, 
        device = "pdf", 
        dpi = 300,

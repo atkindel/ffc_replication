@@ -91,7 +91,7 @@ train %>%
   coord_flip() +
   xlab("Training outcome") +
   ylab("Proportion of training sample\n(annotations provide count)")+
-  ggsave(file.path(results.dir, "figures", "s3_training_distribution.pdf"),
+  ggsave(file.path(results.dir, "figures", "s2_training_distribution.pdf"),
          height = 4.5, width = 6.5)
 
 ###############################
@@ -620,7 +620,7 @@ estimates_with_intervals %>%
   theme(legend.title = element_blank(),
         legend.position = "none",
         panel.grid.major.x = element_blank()) +
-  ggsave(file.path(results.dir, "figures", "s7a_benchmarks_A.pdf"),
+  ggsave(file.path(results.dir, "figures", "s6a_benchmarks_A.pdf"),
          height = 2, width = 6.5)
 
 
@@ -638,7 +638,7 @@ estimates_with_intervals %>%
   theme(legend.title = element_blank(),
         legend.position = "none",
         panel.grid.major.x = element_blank()) +
-  ggsave(file.path(results.dir, "figures", "s7b_benchmarks_B.pdf"),
+  ggsave(file.path(results.dir, "figures", "s6b_benchmarks_B.pdf"),
          height = 2, width = 6.5)
 
 estimates_with_intervals %>%
@@ -655,7 +655,7 @@ estimates_with_intervals %>%
   theme(legend.title = element_blank(),
         legend.position = "none",
         panel.grid.major.x = element_blank()) +
-  ggsave(file.path(results.dir, "figures", "s7c_benchmarks_C.pdf"),
+  ggsave(file.path(results.dir, "figures", "s6c_benchmarks_C.pdf"),
          height = 2, width = 6.5)
 
 
@@ -692,7 +692,7 @@ estimates_with_intervals %>%
         legend.position = "none",
         axis.text.x = element_text(angle = 45, hjust = 1)) +
   facet_grid(outcome_name ~ predictors, scales = "free_y") +
-  ggsave(file.path(results.dir, "figures", "s8_benchmarks_alternative.pdf"),
+  ggsave(file.path(results.dir, "figures", "s7_benchmarks_alternative.pdf"),
          height = 7.5, width = 6.5)
 
 # Note correlation between benchmark and best
@@ -756,7 +756,7 @@ for (outcome_case in outcomes) {
              size = 2)
   assign(paste0("plot_",outcome_case),plot)
 }
-pdf(file.path(results.dir, "figures", "s9_benchmark_vs_best_scatter.pdf"),
+pdf(file.path(results.dir, "figures", "s8_benchmark_vs_best_scatter.pdf"),
     height = 5, width = 6,
     onefile = F)
 gridExtra::grid.arrange(plot_materialHardship,plot_gpa,plot_grit,plot_eviction,plot_jobTraining,plot_layoff,
@@ -826,7 +826,7 @@ for (outcome_case in outcomes) {
                       outcome_case == "jobTraining" ~ "E. Job training\n",
                       outcome_case == "layoff" ~ "F. Layoff\n")) +
     ggsave(file.path(results.dir, "figures", 
-                     paste0("s12", outlist[outcome_case], "_scoresBeatingBaseline_not01_", outcome_case,".pdf")),
+                     paste0("s15", outlist[outcome_case], "_scoresBeatingBaseline_not01_", outcome_case,".pdf")),
            height = 12, width = 3)
 }
 
@@ -869,7 +869,7 @@ estimates_with_intervals %>%
   xlab("Outcome") +
   theme_bw() +
   ylim(c(0,1)) +
-  ggsave(file.path(results.dir, "figures", "s10_worse_than_benchmark.pdf"),
+  ggsave(file.path(results.dir, "figures", "s9_worse_than_benchmark.pdf"),
          height = 3.5, width = 6.5)
 
 ########################################
@@ -914,7 +914,7 @@ winner_bs %>%
   xlab("Outcome") +
   theme_bw() +
   ylim(c(0,1)) +
-  ggsave(file.path(results.dir, "figures", "s11_unsure_of_winner.pdf"),
+  ggsave(file.path(results.dir, "figures", "s10_unsure_of_winner.pdf"),
          height = 3.5, width = 6.5)
 
 #################################################
@@ -1099,6 +1099,6 @@ draws_evaluation %>%
         axis.title.x = element_blank(),
         axis.title.y = element_text(vjust = .5, angle = 0),
         legend.title = element_blank()) +
-  ggsave(file.path(results.dir, "figures", "s13_alternative_best_estimators.pdf"),
+  ggsave(file.path(results.dir, "figures", "s11_alternative_best_estimators.pdf"),
          height = 4, width = 6.5)
 

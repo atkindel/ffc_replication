@@ -37,38 +37,38 @@ echo "END prep_predictions.R" >> log.txt
 
 # Ian: Generates several figures:
 #  - Main paper figure 2 (main challenge results)
-#  - SM figure S3 (training data distributions)
-#  - SM figures S7a-d; S8-S11 (performance benchmarks and uncertainty)
-#  - SM figures S12a-f (team scores by outcome)
-#  - SM figure S13 (out-of-sample error estimates)
+#  - SM figure S2 (training data distributions)
+#  - SM figures S6a-d; S7-S10 (performance benchmarks and uncertainty)
+#  - SM figure S11 (out-of-sample error estimates)
+#  - SM figures S15a-f (team scores by outcome)
 echo "BEGIN science_figures.R" >> log.txt
 Rscript ./science_figures.R >> log.txt
 echo "END science_figures.R" >> log.txt
 
 # Matt: Generates main paper figure 3 (prediction heatmaps)
-#  Also outputs SM table S6 (model fit for models of prediction error by account, observation)
+#  Also outputs SM table S7 (model fit for models of prediction error by account, observation)
 #  Generating all of the heatmaps at once requires ~6gb memory
 echo "BEGIN heatmaps.R" >> log.txt
 Rscript ./heatmaps.R >> log.txt
 echo "END heatmaps.R" >> log.txt
 
-# Matt: Generates SM figures S2a, S2b (missing data)
-#  Generating the heatmap in S2a requires ~14gb memory
+# Matt: Generates SM figures S1a, S1b (missing data)
+#  Generating the heatmap in S1a requires ~14gb memory
 echo "BEGIN make_missing_data_graphs.R" >> log.txt
 Rscript ./make_missing_data_graphs.R >> log.txt
 echo "END make_missing_data_graphs.R" >> log.txt
 
-# Alex: Generates SM figures S4a, S4b, S5 (participant demographics)
+# Alex: Generates SM figures S3a, S3b, S4 (participant demographics)
 echo "BEGIN participant_analysis.R" >> log.txt
 Rscript ./participant_analysis.R >> log.txt
 echo "END participant_analysis.R" >> log.txt
 
-# Matt: Generates SM figure S14 (prediction difficulty in extreme cases)
+# Matt: Generates SM figure S13 (prediction difficulty in extreme cases)
 echo "BEGIN hard_to_predict_cases.R" >> log.txt
 Rscript ./hard_to_predict_cases.R >> log.txt
 echo "END hard_to_predict_cases.R" >> log.txt
 
-# Matt: Generates SM figure S15 (prediction difficulty across outcomes within families)
+# Matt: Generates SM figure S14 (prediction difficulty across outcomes within families)
 echo "BEGIN difficulty_across_outcomes.R" >> log.txt
 Rscript ./difficulty_across_outcomes.R >> log.txt
 echo "END difficulty_across_outcomes.R" >> log.txt
@@ -78,12 +78,12 @@ echo "BEGIN code_analysis.R" >> log.txt
 Rscript ./code_analysis.R >> log.txt
 echo "END code_analysis.R" >> log.txt
 
-# Matt: Generates SM figure S19 (prediction distances compared to truth)
+# Matt: Generates SM figure S12 (prediction distances compared to truth)
 echo "BEGIN compare_predictions_truth.R" >> log.txt
 Rscript ./compare_predictions_truth.R >> log.txt
 echo "END compare_predictions_truth.R" >> log.txt
 
-# Alex: Generates SM figures S20-23 (methods used in the Challenge)
+# Alex: Generates SM figures S19-22 (methods used in the Challenge)
 echo "BEGIN methods_used.R" >> log.txt
 Rscript ./methods_used.R >> log.txt
 echo "END methods_used.R" >> log.txt

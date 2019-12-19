@@ -157,7 +157,7 @@ p <- marrangeGrob(grobs = list(blank, plots_u[[1]], plots_u[[2]], plots_u[[3]], 
 
 # Save figure to disk
 ggsave(plot = p,
-       filename = "s15_difficulty_scatterplot_matrix.pdf",
+       filename = "s14_difficulty_scatterplot_matrix.pdf",
        path = results.dir, 
        device = "pdf",
        dpi = 300,

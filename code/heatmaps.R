@@ -148,6 +148,6 @@ table_to_print$family.fixed.effects.model <- round(table_to_print$family.fixed.e
 table_to_print$accounts.fixed.effects.model <- round(table_to_print$accounts.fixed.effects.model, 5)
 
 # Write results to file
-sink(file.path(here(), "results", "table_s6.txt"))
+sink(file.path(here(), "results", "table_s7.txt"))
 print("This table appears in the Supporting Materials:")
 stargazer(table_to_print, summary = FALSE)

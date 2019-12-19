@@ -66,7 +66,7 @@ dp_values %>%
   scale_x_discrete(labels = function(x) str_wrap(x, width = 14)) +
   labs(x="Reported data preparation steps",
        y="Account") + 
-  ggsave(file.path(results.dir, "figures", "s20_reports_dataprep.pdf"),
+  ggsave(file.path(results.dir, "figures", "s19_reports_dataprep.pdf"),
          height=10, width=12)
 
 
@@ -104,7 +104,7 @@ fs_values %>%
   scale_x_discrete(labels = function(x) str_wrap(x, width = 14)) +
   labs(x="Reported feature selection steps",
        y="Account") + 
-  ggsave(file.path(results.dir, "figures", "s21_reports_featureselection.pdf"),
+  ggsave(file.path(results.dir, "figures", "s20_reports_featureselection.pdf"),
          height=10, width=12)
 
 
@@ -158,7 +158,7 @@ la_values %>%
   scale_x_discrete(labels = function(x) str_wrap(x, width = 14)) +
   labs(x="Reported learning algorithms used",
        y="Account") + 
-  ggsave(file.path(results.dir, "figures", "s22_reports_learningalg.pdf"),
+  ggsave(file.path(results.dir, "figures", "s21_reports_learningalg.pdf"),
          height=10, width=13)
 
 
@@ -195,5 +195,5 @@ ms_values %>%
   scale_x_discrete(labels = function(x) str_wrap(x, width = 14)) +
   labs(x="Reported model interpretation steps",
        y="Account") + 
-  ggsave(file.path(results.dir, "figures", "s23_reports_modelinterp.pdf"),
+  ggsave(file.path(results.dir, "figures", "s22_reports_modelinterp.pdf"),
          height=10, width=12)
