@@ -26,4 +26,4 @@ plot_ly(z = rbind(c(3,3,3.4,3.4),
                                  range = c(3,4)))) ->
   p5
 
-# Save plot manually
+# Save plot manually as 5b_tree_figure_3d.pdf

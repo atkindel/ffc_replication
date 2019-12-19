@@ -116,7 +116,7 @@ for(outcome_case in outcomes) {
       theme_bw() +
       theme(axis.text.x.bottom = element_text(angle = 45, hjust = 1),
             axis.text.x.top = element_text(angle = 45, hjust = 0)) +
-      ggsave(file.path(results.dir,paste0("plot_",outcome_case,"_",set_case,".pdf")),
+      ggsave(file.path(results.dir,paste0("6_plot_",outcome_case,"_",set_case,".pdf")),
              height = 2, width = 2)
   }
 }
@@ -153,7 +153,7 @@ submissions_with_truth %>%
   ylab(expression({R^2}[Holdout])) +
   theme_bw() + 
   theme(panel.spacing = unit(1, "lines")) +
-  ggsave(file.path(results.dir, "r2_train_holdout.pdf"),
+  ggsave(file.path(results.dir, "7_r2_train_holdout.pdf"),
          height = 4, width = 6.5)
   
   
