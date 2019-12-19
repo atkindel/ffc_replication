@@ -6,28 +6,6 @@ Replication materials for:
 
 Private data required to replicate results are available through the Office of Population Research Data Archive at Princeton University: https://opr.princeton.edu/archive/restricted/Default.aspx
 
-## Reproducing all results
+A Docker image containing this code that has all required software pre-installed is available at https://hub.docker.com/repository/docker/atkindel/ffc_replication; we recommend using the image to reproduce all results.
 
-The following shell commands provide a basic interface to reproduce all figures in the paper:
-
-```
-# In top-level directory of ffc_replication/
-# Build image and start a container with it
-docker build -t ffc_replication .
-docker run -it -d --name ffc ffc_replication
-
-# Copy private data directory into our new container
-docker cp ./data/private ffc:/ffc_replication/data/
-
-# Run all reproduction code from inside container
-docker exec -it ffc /bin/bash
-# Not run (execute these in container shell):
-# cd ffc_replication/code/
-# source run.sh
-
-# Destroy container when we're finished (not run)
-# docker stop ffc
-# docker rm ffc
-```
-
-You may also need to increase Docker's memory limit in order to generate some of the figures. The heatmaps in Fig. 3 and Fig. S2a are especially memory-intensive.
+You may need to increase Docker's memory limit in order to generate some of the figures. The heatmaps in Fig. 3 and Fig. S2a are especially memory-intensive. We recommend 16 GiB memory and 4 GiB swap.
