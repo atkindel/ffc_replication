@@ -37,7 +37,7 @@ echo "END prep_predictions.R" >> log.txt
 ## Reproduce main paper and supplementary material (SM) figures ##
 
 # Ian: Generates several figures:
-#  - Main paper figure 2 (main challenge results)
+#  - Main paper figure 3 (main challenge results)
 #  - SM figure S2 (training data distributions)
 #  - SM figures S6a-d; S7-S10 (performance benchmarks and uncertainty)
 #  - SM figure S11 (out-of-sample error estimates)
@@ -46,7 +46,7 @@ echo "BEGIN science_figures.R" >> log.txt
 Rscript ./science_figures.R >> log.txt
 echo "END science_figures.R" >> log.txt
 
-# Matt: Generates main paper figure 3 (prediction heatmaps)
+# Matt: Generates main paper figure 4 (prediction heatmaps)
 #  Also outputs SM table S7 (model fit for models of prediction error by account, observation)
 #  Generating all of the heatmaps at once requires ~6gb memory
 echo "BEGIN heatmaps.R" >> log.txt

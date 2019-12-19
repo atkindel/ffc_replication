@@ -100,14 +100,14 @@ for (outcome.to.plot in outcomes.to.plot) {
 # Save heatmaps as PDF and PNG
 p <- grid.arrange(grobs = plots, nrow = 6)
 ggsave(plot = p,
-       filename = "3_heatmaps_sqerr_6outcomes.pdf",
+       filename = "4_heatmaps_sqerr_6outcomes.pdf",
        path = results.dir, 
        device = "pdf", 
        dpi = 300,
        width = 4.75, height = 8, units = "in")
 
 ggsave(plot = p,
-       filename = "3_heatmaps_sqerr_6outcomes.png",
+       filename = "4_heatmaps_sqerr_6outcomes.png",
        path = results.dir,
        device = "png", 
        dpi = 300,

@@ -573,7 +573,7 @@ for (outcome_case in c("eviction","layoff","jobTraining")) {
   # Rename that object to call later
   assign(paste0("plot_",outcome_case), plot)
 }
-pdf(file.path(results.dir, "figures", "2_results_many_facets_full_benchmark.pdf"),
+pdf(file.path(results.dir, "figures", "3_results_many_facets_full_benchmark.pdf"),
     height = 5, width = 13.5,
     onefile = F)
 arranged <- gridExtra::arrangeGrob(grobs = list(white_space_plot,
