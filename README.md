@@ -8,4 +8,4 @@ Private data required to replicate results are available through the Office of P
 
 A Docker image containing this code that has all required software pre-installed is available at https://hub.docker.com/repository/docker/atkindel/ffc_replication; we recommend using the image to reproduce all results.
 
-You may need to increase Docker's memory limit in order to generate some of the figures. The heatmaps in Fig. 3 and Fig. S2a are especially memory-intensive. We recommend 16 GiB memory and 4 GiB swap.
+You probably will need to increase Docker's memory limit in order to generate some of the figures. The heatmaps in Fig. 4 and Fig. S1a are especially memory-intensive. We recommend 16 GiB memory and 4 GiB swap.
