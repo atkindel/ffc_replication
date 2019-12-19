@@ -38,3 +38,4 @@ List of other generated files:
 privacy_redaction_count.txt
 restrictions.csv
 table_s7.txt
+num_nonmissing_cases.csv

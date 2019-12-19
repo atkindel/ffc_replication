@@ -94,6 +94,11 @@ echo "BEGIN privacy_redaction_count.R" >> log.txt
 Rscript ./privacy_redaction_count.R >> log.txt
 echo "END privacy_redaction_count.R" >> log.txt
 
+# Produces table S4 showing the number of non-missing cases for each outcome in the training, leaderboard, and holdout sets.
+echo "BEGIN num_nonmissing_cases.R" >> log.txt
+Rscript ./num_nonmissing_cases.R >> log.txt
+echo "END num_nonmissing_cases.R" >> log.txt
+
 # Remove Rplots.pdf
 rm -f ./Rplots.pdf
 
