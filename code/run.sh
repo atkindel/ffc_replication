@@ -8,9 +8,10 @@ touch log.txt
 echo "Log from run: $(date)" >> log.txt
 
 ## Package installation ##
-echo "BEGIN install_requirements.R" >> log.txt
-Rscript ./install_requirements.R >> log.txt
-echo "END install_requirements.R" >> log.txt
+# These are pre-installed on the Docker image; uncomment if running on own machine
+# echo "BEGIN install_requirements.R" >> log.txt
+# Rscript ./install_requirements.R >> log.txt
+# echo "END install_requirements.R" >> log.txt
 
 
 ## Data preparation ##
