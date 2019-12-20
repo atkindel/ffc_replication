@@ -673,11 +673,11 @@ estimates_with_intervals %>%
   label = case_when(account == "A. OLS" & 
                       predictors == "C. Predictor set:\nAll (4)" &
                       outcome_name %in% c("A. Material\nhardship","B. GPA", "C. Grit") ~ 
-                      paste0(format(round(point,2),digits = 2),"*"),
+                      format(round(point,2),digits = 2),
                     account == "B. Logistic regression" & 
                       predictors == "C. Predictor set:\nAll (4)" &
                       outcome_name %in% c("D. Eviction","E. Job\ntraining", "F. Layoff") ~ 
-                      paste0(format(round(point,2),digits = 2),"*"),
+                      format(round(point,2),digits = 2),
                     T ~ format(round(point,2),digits = 2))) %>%
   ggplot(aes(x = account, y = point, color = account,
              label = label, ymin = ci.min, ymax = ci.max)) +
@@ -1074,7 +1074,7 @@ draws_evaluation %>%
          ci.max = point + qnorm(.975)*sqrt(var)) %>%
   select(outcome, quantity, point, ci.min, ci.max) %>%
   bind_rows(estimates_with_intervals %>%
-              filter(account == "max" & method == "analytical") %>%
+              filter(account == "max" & method == "bootstrap") %>%
               mutate(quantity = "max") %>%
               select(outcome, quantity, point, ci.min, ci.max)) %>%
   mutate(estimator = case_when(quantity == "max" ~ "A. One set for both\nselection and evaluation",
