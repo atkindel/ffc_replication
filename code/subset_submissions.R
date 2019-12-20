@@ -100,7 +100,7 @@ write_csv(submissions_with_score_indicator,
 write_csv(
   submissions_with_score_indicator %>%
     group_by(outcome, account) %>%
-    mutate(different_from_baseline = !all(abs(prediction - ybar_train) < .001)) %>%
+    mutate(different_from_baseline = !all(abs(prediction - ybar_train) < 10^-4)) %>%
     #mutate(different_from_baseline = !(all(prediction == ybar_train))) %>%
     filter((1:n()) == 1) %>%
     group_by(outcome_name) %>%

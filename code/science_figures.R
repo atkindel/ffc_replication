@@ -360,9 +360,9 @@ estimates_with_intervals <- foreach(outcome_case = outcomes, .combine = "rbind")
                        r2_holdout = 0,
                        beatingBaseline = F)) %>%
     filter(outcome == outcome_case) %>%
-    # Remove cases where all predictions are within .001 of the baseline
+    # Remove cases where all predictions are within 10^-4 of the baseline
     group_by(account) %>%
-    mutate(predicts_baseline = all(abs(prediction - ybar_train) < .001)) %>%
+    mutate(predicts_baseline = all(abs(prediction - ybar_train) < 10^-4)) %>%
     filter(!predicts_baseline | account == "baseline") %>%
     filter(!is.na(truth)) %>%
     mutate(sq_error = (truth - prediction) ^ 2) %>%
@@ -399,9 +399,9 @@ estimates_with_intervals <- foreach(outcome_case = outcomes, .combine = "rbind")
     this_column <- squared_errors[,i]
     previous_columns <- squared_errors[,1:(i-1)]
     if (i == 2) {
-      same[i] <- all(abs(this_column - previous_columns) < .001)
+      same[i] <- all(abs(this_column - previous_columns) < 10^-4)
     } else {
-      same[i] <- any(apply(previous_columns, 2, function(x) all(abs(this_column - x) < .001)))
+      same[i] <- any(apply(previous_columns, 2, function(x) all(abs(this_column - x) < 10^-4)))
     }
   }
   
