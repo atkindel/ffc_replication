@@ -805,7 +805,6 @@ for (outcome_case in outcomes) {
   max_r2 <- max((submissions %>% filter(outcome == outcome_case))$r2_holdout)
   
   estimates_with_intervals %>%
-    # filter(account %in% submissions$account & outcome == outcome_case) %>%
     filter(account %in% valid_accounts & outcome == outcome_case) %>%
     mutate(account = fct_reorder(account, point)) %>%
     ggplot(aes(x = point, y = account)) +
@@ -830,15 +829,6 @@ for (outcome_case in outcomes) {
            height = 12, width = 3)
 }
 
-# Check that this is the number of qualifying submissions
-num_account_in_s12 <- estimates_with_intervals %>%
-  filter(account %in% submissions$account) %>%
-  group_by(account) %>%
-  filter((1:n()) == 1) %>%
-  group_by() %>%
-  summarize(num = n())
-# This matches the 137 that we expect, who qualified on at least 1 outcome
-
 #####################################################
 # Plot of % of submissions worse than the benchmark #
 #####################################################
@@ -856,6 +846,8 @@ estimates_with_intervals %>%
       rename(benchmark = point),
     by = "outcome_name"
   ) %>%
+  # Restrict to qualifying submissions
+  filter(point > 10^-4) %>%
   group_by(outcome_name) %>%
   summarize(worse_than_benchmark = mean(point < benchmark)) %>%
   group_by() %>%
