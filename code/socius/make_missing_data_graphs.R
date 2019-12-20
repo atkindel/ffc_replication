@@ -99,7 +99,7 @@ print("Done plotting.")
 
 # Write plots to disk
 print("Writing plots to disk...")
-ggsave(plot = p3a, filename = "3a_missing_data_background_heatmap.pdf", path = results.dir, 
-       device = "pdf", dpi = 300, width = 4.25, height = 2.5, units = "in")
 ggsave(plot = p3b, filename = "3b_missing_data_background_bar.pdf", path = results.dir, 
        device = "pdf", dpi = 300, width = 3, height = 4.25, units = "in")
+ggsave(plot = p3a, filename = "3a_missing_data_background_heatmap.pdf", path = results.dir, 
+       device = "pdf", dpi = 300, width = 4.25, height = 2.5, units = "in")

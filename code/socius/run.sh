@@ -23,9 +23,14 @@ Rscript ./privacy_redaction_count.R | tee log.txt
 echo "END privacy_redaction_count.R" | tee log.txt
 
 # Produces the 3D tree visualization (Figure 5).
-echo "BEGIN tree_plot.R" | tee log.txt
-Rscript ./tree_plot.R | tee log.txt
-echo "END tree_plot.R" | tee log.txt
+# Run this script manually to generate the tree plot (must be manually saved)
+# echo "BEGIN tree_plot.R" | tee log.txt
+# Rscript ./tree_plot.R | tee log.txt
+# echo "END tree_plot.R" | tee log.txt
+
+# Ensure leaderboard data is decompressed
+rm -rf /ffc_replication/data/leaderboard_nodupes/
+yes | unzip /ffc_replication/data/leaderboard_nodupes.zip
 
 # Produces the empirical CDF of R^2 for each outcome and data set (Figure 6).
 # Also produces the scatterplot of R^2_Training and R^2_Holdout (Figure 7).
