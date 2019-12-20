@@ -16,7 +16,7 @@ data.dir <- file.path(here(), "data")
 private.data.dir <- file.path(data.dir, "private")
 
 # Set the results location
-results.dir <- file.path(here(), "results", "socius")
+results.dir <- file.path(here(), "results")
 
 # Load data
 train <- read_csv(file.path(private.data.dir, "train.csv"))
