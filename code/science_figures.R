@@ -507,8 +507,8 @@ for (outcome_case in c("gpa","grit","materialHardship")) {
     filter(r2_holdout == max(r2_holdout)) %>%
     bind_rows(benchmarks_long %>%
                 filter(outcome == outcome_case & 
-                         (account == "benchmark_ols_full" & outcome %in% c("gpa","grit","materialHardship")) |
-                         (account == "benchmark_logit_full" & outcome %in% c("eviction","layoff","jobTraining")))) %>%
+                         ((account == "benchmark_ols_full" & outcome %in% c("gpa","grit","materialHardship")) |
+                            (account == "benchmark_logit_full" & outcome %in% c("eviction","layoff","jobTraining"))))) %>%
     mutate(type = ifelse(grepl("benchmark",account), "Benchmark", "Best submission")) %>%
     select(prediction, truth, type) %>%
     filter(!is.na(truth)) %>%
@@ -528,7 +528,7 @@ for (outcome_case in c("gpa","grit","materialHardship")) {
     ggtitle(title) +
     facet_wrap(~type, ncol = 2) +
     theme_bw() +
-    theme(plot.title = element_text(hjust = 0.5),
+    theme(plot.title = element_text(hjust = 0),
           strip.background = element_rect(fill = "white"),
           panel.grid.minor = element_blank())
   # Rename that object to call later
@@ -545,8 +545,8 @@ for (outcome_case in c("eviction","layoff","jobTraining")) {
     filter(r2_holdout == max(r2_holdout)) %>%
     bind_rows(benchmarks_long %>%
                 filter(outcome == outcome_case & 
-                         (account == "benchmark_ols_full" & outcome %in% c("gpa","grit","materialHardship")) |
-                         (account == "benchmark_logit_full" & outcome %in% c("eviction","layoff","jobTraining")))) %>%
+                         ((account == "benchmark_ols_full" & outcome %in% c("gpa","grit","materialHardship")) |
+                            (account == "benchmark_logit_full" & outcome %in% c("eviction","layoff","jobTraining"))))) %>%
     mutate(type = ifelse(grepl("benchmark",account), "Benchmark", "Best submission")) %>%
     select(prediction, truth, type) %>%
     filter(!is.na(truth)) %>%
@@ -567,7 +567,7 @@ for (outcome_case in c("eviction","layoff","jobTraining")) {
     facet_grid(truth ~ type,
                scales = "free", switch = "y") +
     theme_bw() +
-    theme(plot.title = element_text(hjust = 0.5),
+    theme(plot.title = element_text(hjust = 0),
           strip.background = element_rect(fill = "white"),
           panel.grid.minor = element_blank())
   # Rename that object to call later
