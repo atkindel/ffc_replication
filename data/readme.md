@@ -26,8 +26,8 @@ author_methods.csv: This file contains narrative descriptions that participants 
 
 methods_responses_clean.csv: This file contains participant responses to a survey about the methods they used.
 
-ffc_code.csv: This file contains XXX
+ffc_code.csv: This file contains serialized function call lists from each script submitted to the Challenge.
 
-ffc_model_functions_coded.csv: This file contains XXX
+ffc_model_functions_coded.csv: This file contains all model functions called in ffc_code.csv; functions are labeled by learning algorithm type.
 
-ffc_symbols_coded.csv: This file contains XXX
+ffc_symbols_coded.csv: This file contains a list of all functions called in ffc_code.csv; functions are labeled by data pipeline role (preparation, modeling, visualization)
