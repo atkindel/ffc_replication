@@ -63,12 +63,12 @@ background %>%
   # Build barplot of frequencies
   ggplot(aes(x = value_label, y = freq, fill = color)) +
   geom_bar(position = "dodge", stat = "identity") +
-  geom_text(aes(label = scales::percent(freq)), 
+  geom_text(aes(label = scales::percent(freq, accuracy=0.1)), 
             position = position_dodge(width = 1),
             hjust = -0.5) +
   # Adjust plot aesthetics
   scale_fill_manual("legend", values = c("grey" = "#8856a7", "blue" = "#9ebcda")) +
-  scale_y_continuous(labels=scales::percent, limits=c(0, 0.45)) +
+  scale_y_continuous(labels=scales::percent_format(accuracy=1), limits=c(0, 0.45)) +
   theme(legend.position="none") +
   labs(x="Data entry",
        y="Percent of total data") +
