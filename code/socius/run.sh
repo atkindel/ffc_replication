@@ -30,7 +30,7 @@ echo "END privacy_redaction_count.R" | tee -a log.txt
 
 # Ensure leaderboard data is decompressed
 rm -rf /ffc_replication/data/leaderboard_nodupes/
-yes | unzip /ffc_replication/data/leaderboard_nodupes.zip
+yes | unzip /ffc_replication/data/leaderboard_nodupes.zip -d /ffc_replication/data/
 
 # Produces the empirical CDF of R^2 for each outcome and data set (Figure 6).
 # Also produces the scatterplot of R^2_Training and R^2_Holdout (Figure 7).
