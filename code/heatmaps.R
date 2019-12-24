@@ -1,5 +1,5 @@
 # Input: processed_predictions.RData
-# Outputs: 1) heatmaps of squared error for all six outcomes, Fig 3 from paper
+# Outputs: 1) heatmaps of squared error for all six outcomes, Fig 4 from paper
 #          2) table of R^2 values for fixed effects models that goes in SM
 # By Matt Salganik (minor edits + optimization? by Alex Kindel)
 # Runtime: A few minutes on a laptop 
@@ -60,8 +60,9 @@ for (outcome.to.plot in outcomes.to.plot) {
   fits.account[[outcome.to.plot]] <- lm(sq.err ~ account, data.to.plot)
 
   # Order observation IDs and accounts by MSE on this outcome
-  data.to.plot$account <- fct_reorder(as.factor(data.to.plot$account), data.to.plot$mse.account.outcome)
-  data.to.plot$challengeID <- fct_reorder(as.factor(data.to.plot$challengeID), data.to.plot$mse_unit_outcome)
+  # need to sort accounts in descending order to get best account on top
+  data.to.plot$account <- fct_reorder(as.factor(data.to.plot$account), data.to.plot$mse.account.outcome, .desc = TRUE)
+  data.to.plot$challengeID <- fct_reorder(as.factor(data.to.plot$challengeID), data.to.plot$mse_unit_outcome, .desc = FALSE)
 
   # Note that portions of the heatmap can look "flat" because of a resolution limit
   # For example, from the heatmap it is hard to see the difference between 0.001 and 0.002 (depending on scale)
