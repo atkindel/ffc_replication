@@ -1,5 +1,5 @@
 # Input: processed_predictions.RData
-# Outputs: 1) heatmaps of squared error for all six outcomes, Fig 3 from paper
+# Outputs: 1) heatmaps of squared error for all six outcomes, Fig 4 from paper
 #          2) table of R^2 values for fixed effects models that goes in SM
 # By Matt Salganik (minor edits + optimization? by Alex Kindel)
 # Runtime: A few minutes on a laptop 
