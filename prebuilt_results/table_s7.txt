@@ -1,7 +1,7 @@
 [1] "This table appears in the Supporting Materials:"
 
 % Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Thu, Dec 19, 2019 - 19:03:14
+% Date and time: Thu, Dec 26, 2019 - 19:48:06
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 

@@ -1,9 +1,9 @@
 outcome_name,num_valid,num_differentFromBaseline,num_beatingBaseline
 "A. Material
-hardship",160,153,92
-B. GPA,160,154,98
-C. Grit,160,146,65
-D. Eviction,160,145,48
+hardship",160,122,92
+B. GPA,160,128,98
+C. Grit,160,121,65
+D. Eviction,160,111,48
 "E. Job
-training",160,149,42
-F. Layoff,160,147,42
+training",160,117,42
+F. Layoff,160,112,42
