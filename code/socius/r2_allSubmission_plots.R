@@ -103,16 +103,24 @@ for(outcome_case in outcomes) {
       arrange(r2) %>%
       mutate(prop_submissions = (1:n()) / n(),
              count_submissions = 1:n()) %>%
-      filter(r2 >= 0)
+      # Keep only those with positive R^2 and the single highest non-positive R^2 (if any)
+      mutate(positive_r2 = r2 > 0) %>%
+      group_by(positive_r2) %>%
+      arrange(r2) %>%
+      filter(positive_r2 | (1:n()) == n()) %>%
+      # For the single highest non-positive R^2, place at the limit of the plot (R^2 = 0)
+      mutate(r2 = ifelse(r2 < 0, 0, r2)) %>%
+      group_by()
+    
     forPlot %>%
       ggplot(aes(x = r2, y = prop_submissions)) +
       geom_step() +
       scale_y_continuous(name = element_blank(),
-                         sec.axis = sec_axis(~(.)*max(forPlot$count_submissions))) +
+                         sec.axis = sec_axis(~(.)*max(forPlot$count_submissions)),
+                         limits = c(0,1)) +
       scale_x_continuous(name = element_blank(),
                          sec.axis = sec_axis(~(.),
                                              labels = function(x) round((1 - x)*forPlot$baseline[1], digits = 3))) +
-      #sec.axis = sec_axis(~(1 - .)*forPlot$baseline[1])) +
       theme_bw() +
       theme(axis.text.x.bottom = element_text(angle = 45, hjust = 1),
             axis.text.x.top = element_text(angle = 45, hjust = 0)) +
