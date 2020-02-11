@@ -13,10 +13,11 @@
 ## private
 
 - private/background.dta: This is the background data file of predictors as shared with Challenge participants.
+- private/background.csv: Same as above, but stored as CSV rather than in Stata format.
 - private/train.csv: This is the 6 outcomes for the training cases, as shared with Challenge participants.
 - private/test.csv: This is the 6 outcomes for the test cases, as used to evaluate Challenge submissions.
 - private/leaderboardUnfilled.csv: This contains the 6 outcomes for all leaderboard cases, with missing values as NA.
 - private/leaderboard.csv: This contains the 6 outcomes for all leaderboard cases, with missing values imputed by random draws from observed cases.
 - private/FF_Y15_pub.dta: This is the year 15 data file from the Fragile Families study.
 - private/idLinkage.csv: This links the public idnum of the Fragile Families study to the challengeID that was used in the files shared with participants.
-
+- all_public_data/: This directory contains the raw public-use FFCWS data. Used to compute missingness proportions induced by privacy redaction.
