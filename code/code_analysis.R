@@ -123,8 +123,8 @@ user_modeltypes %>%
   summarize(n=n()) %>%
   ggplot(aes(x=type, y=n)) +
   geom_col() +
-  labs(x="# users",
-       y="Model type") +
+  labs(x="Model type",
+       y="# users") +
   ggsave(file.path(results.dir, "figures", "s16_modelcounts.pdf"),
          height = 4, width = 6.5)
 
