@@ -142,8 +142,8 @@ plot_diff_pred_u <- function(out_x, out_y) {
 
 # Produce a scatterplot for each outcome pair
 outcome_combos <- t(combn(c("materialHardship", "gpa", "grit", "eviction", "jobTraining", "layoff"), 2))
-plots <- mapply(plot_diff_pred, outcome_combos[,1], outcome_combos[,2], SIMPLIFY=F)
-plots_u <- mapply(plot_diff_pred_u, outcome_combos[,1], outcome_combos[,2], SIMPLIFY=F)
+plots_u <- mapply(plot_diff_pred, outcome_combos[,1], outcome_combos[,2], SIMPLIFY=F)
+plots <- mapply(plot_diff_pred_u, outcome_combos[,1], outcome_combos[,2], SIMPLIFY=F)
 
 # Arrange scatterplots in a matrix; don't plot redundant cells
 # Use marrangeGrob() instead of grid.arrange() to avoid errors
