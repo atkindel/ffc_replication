@@ -1,7 +1,7 @@
 [1] "This table appears in the Supporting Materials:"
 
-% Table created by stargazer v.5.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
-% Date and time: Thu, Dec 26, 2019 - 19:48:06
+% Table created by stargazer v.5.2.2 by Marek Hlavac, Harvard University. E-mail: hlavac at fas.harvard.edu
+% Date and time: Thu, Mar 05, 2020 - 02:35:47 AM
 \begin{table}[!htbp] \centering 
   \caption{} 
   \label{} 
@@ -10,12 +10,12 @@
 \hline \\[-1.8ex] 
  & outcome & family.fixed.effects.model & accounts.fixed.effects.model \\ 
 \hline \\[-1.8ex] 
-1 & A. Material hardship & $0.925$ & $0.002$ \\ 
-2 & B. GPA & $0.897$ & $0.002$ \\ 
-3 & C. Grit & $0.968$ & $0.0001$ \\ 
-4 & D. Eviction & $0.986$ & $0.00002$ \\ 
-5 & E. Job training & $0.938$ & $0.0001$ \\ 
-6 & F. Layoff & $0.982$ & $0.00002$ \\ 
+1 & A. Material hardship & 0.92461 & 0.00151 \\ 
+2 & B. GPA & 0.89688 & 0.0017 \\ 
+3 & C. Grit & 0.96782 & 0.00012 \\ 
+4 & D. Eviction & 0.98562 & 2e-05 \\ 
+5 & E. Job training & 0.93801 & 0.00011 \\ 
+6 & F. Layoff & 0.98195 & 2e-05 \\ 
 \hline \\[-1.8ex] 
 \end{tabular} 
 \end{table} 
