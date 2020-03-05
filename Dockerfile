@@ -1,6 +1,6 @@
 FROM rocker/r-ver:3.5.1
 
-ARG ffc_repo_version=2832173
+ARG ffc_repo_version=85ce94e
 
 # Install git
 RUN apt-get update && apt-get upgrade -y && apt-get install -y git
