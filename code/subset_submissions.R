@@ -95,6 +95,7 @@ submissions_with_score_indicator <- test %>%
 print("Writing files")
 write_csv(submissions_with_score_indicator,
           path = file.path(data.dir, "submissions.csv"))
+zip(zipfile=file.path(data.dir, "derived", "submissions.csv.zip"), files=file.path(data.dir, "submissions.csv"), flags = "-j9X")
 
 # Get numbers for supplement
 write_csv(
