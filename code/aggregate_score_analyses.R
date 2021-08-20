@@ -263,7 +263,7 @@ get.benchmark.predictions <- function(outcome, model = "full", data = d) {
     logit <- glm(formula = thisFormula,
                  family = binomial(link = "logit"),
                  data = imputed[!is.na(data[,outcome]),])
-    logit.yhat[!missing_all_predictors] <- predict(ols, newdata = imputed[!missing_all_predictors,], type = "response")
+    logit.yhat[!missing_all_predictors] <- predict(logit, newdata = imputed[!missing_all_predictors,], type = "response")
   } else {
     # If not binary, make all logit predictions NA
     logit.yhat <- NA
