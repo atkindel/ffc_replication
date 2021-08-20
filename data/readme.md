@@ -7,8 +7,8 @@
 - ffc_symbols_coded.csv: This file contains a list of all functions called in ffc_code.csv; functions are labeled by data pipeline role (preparation, modeling, visualization).
 - leaderboard_nodupes.zip: This file contains all submissions on the leaderboard at the end of the Challenge, with duplicate submissions (same person but multiple accounts) removed to have no more than one submission per team.
 - methods_responses_clean.csv: This file contains author responses to a survey about the methods they used.
-- r_squared_all.csv: This file contains R^2 for each team-outcome combination.
-- submissions.csv.zip: This contains all predictions submitted to the Challenge.
+- derived/r_squared_all.csv: This file contains R^2 holdout for each team-outcome combination. We created it with code_analysis.R, and it will be recreated and overwritten every time you run that script. We provide this file so that researchers can view this information without rerunning our code. This file was moved and changed between Docker v11 and v12 (2021).
+- derived/submissions.csv.zip: This file contains the final predictions from all accounts in the Challenge. We created it with subset_submissions.R, and it will be recreated and overwritten every time you run that script. We provide this file so that researchers can view this information without rerunning our code. This file was moved and changed between Docker v11 and v12 (2021).
 
 ## private
 
