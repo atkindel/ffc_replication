@@ -1,6 +1,7 @@
-# participant_analysis.R
+# code_analysis.R
 # Author: Alex Kindel
 # Date: 17 July 2019
+# Updated: 9 July 2021
 # Produces summary plots for FFC code corpus.
 
 library(dplyr)
@@ -138,12 +139,21 @@ pipelines %>%
   preparation
 
 # Load holdout performance data
-holdout_scores <- read_csv(file.path(data.dir, "r_squared_all.csv"), col_types="ccd")
+# Collapse submissions data from one row per family-team-outcome to one row per team-outcome with R^2
+submissions <- read_csv(file.path(data.dir, "submissions.csv"), col_types="cccdddddl")
+submissions %>%
+  select(outcome, team=account, r.squared=r2_holdout, beatingBaseline) %>%
+  distinct(outcome, team, r.squared, beatingBaseline) %>%
+  arrange(outcome, team) ->
+  holdout_scores
+
+if (nrow(holdout_scores) != (160 * 6)) stop("ERROR: Not expected number of rows")  # Verify 960 rows
+write_csv(holdout_scores, file.path(data.dir, "derived", "r_squared_all.csv"))  # Write file
 
 # Merge outcome to data preparation aggregate statistics
 preparation %>%
   left_join(holdout_scores, by=c("user"="team")) %>%
-  filter(r.squared > 0) %>%
+  filter(beatingBaseline) %>%
   left_join(user_modeltypes, by="user") ->
   pipeline_scores
 
@@ -157,27 +167,32 @@ pipeline_scores %>%
   distinct(user, outcome, .keep_all = T) %>%
   ggplot(aes(x=n, y=r.squared)) +
   geom_point() +
-  scale_x_log10() +
+  scale_x_log10(limits=c(1, NA)) +
   facet_wrap(~outcome, scales="free") +
-  labs(x="# of data preparation function calls (log scale)", y=expression("Holdout "*R^2)) + 
+  labs(x="# of data preparation function calls (log scale)", y=expression("Holdout "*R^2)) +
   ggsave(file.path(results.dir, "figures", "s17_dataprep_r2.pdf"),
          height=6, width=8)
 
-
-# Fix missing nn ridge issue
-pipeline_scores <- rbind.data.frame(pipeline_scores, pipeline_scores[1065,])
-pipeline_scores[1770,5] <- "layoff"
+# Set axis range for model types figure (S18)
+# Necessary because not every outcome-model pair has sufficient data to plot (some facets will be missing y levels otherwise)
+pipeline_scores %>%
+  filter(!is.na(type)) %>%
+  pull(type) %>%
+  unique() %>%
+  sort() ->
+  y_ticks
 
 # Plot variation in performance by model type(s) used
 pipeline_scores %>%
   rowwise() %>%
   mutate(outcome = outlist[outcome]) %>%
   ungroup() %>%
-  filter(type != "NA") %>%
+  filter(!is.na(type)) %>%
   ggplot(aes(x=r.squared, y=type, group=type)) +
   geom_density_ridges() +
   facet_wrap(~outcome, scales = "free") +
   xlim(0, NA) +
-  labs(x=expression("Holdout "*R^2), y="Model category (non-exclusive)") + 
+  scale_y_discrete(limits=y_ticks) +
+  labs(x=expression("Holdout "*R^2), y="Model category (non-exclusive)") +
   ggsave(file.path(results.dir, "figures", "s18_modeltype_r2.pdf"),
          height=6, width=8)
